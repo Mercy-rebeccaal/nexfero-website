@@ -150,9 +150,21 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // 4. Static File Server
+  // 4. Static File Server (Serves dist/ if compiled with Vite, otherwise root)
+  const distDir = path.join(__dirname, 'dist');
+  const hasDist = fs.existsSync(distDir);
+  const baseDir = hasDist ? distDir : __dirname;
+
   let safePath = pathname === '/' ? '/index.html' : pathname;
-  let filePath = path.join(__dirname, safePath);
+  let filePath = path.join(baseDir, safePath);
+
+  // If not found in dist, check root/public folder
+  if (!fs.existsSync(filePath)) {
+    const altPath = path.join(__dirname, safePath);
+    if (fs.existsSync(altPath)) {
+      filePath = altPath;
+    }
+  }
 
   // Security: prevent directory traversal
   if (!filePath.startsWith(__dirname)) {
