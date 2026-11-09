@@ -1,0 +1,9 @@
+/**
+ * NexFero Innovations - React Global Stylesheet
+ * Incorporates root brand tokens, layout and components
+ */
+
+@import '../../assets/css/main.css';
+@import '../../assets/css/components.css';
+@import '../../assets/css/animations.css';
+

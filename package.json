@@ -1,0 +1,34 @@
+{
+  "name": "nexfero-innovations",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NexFero Innovations - Premium Startup Website. Beyond Ideas. Beyond Limits.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "node server.js"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.3.4"
+  },
+  "keywords": [
+    "nexfero",
+    "startup",
+    "ai",
+    "machine-learning",
+    "web-development",
+    "cloud"
+  ],
+  "author": "NexFero Innovations <nexferoinnovations@gmail.com>",
+  "license": "Proprietary"
+}
+

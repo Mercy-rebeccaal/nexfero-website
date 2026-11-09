@@ -1,0 +1,9 @@
+# NexFero Innovations - Robots Configuration
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin
+
+# Sitemap Location
+Sitemap: https://nexfero.com/sitemap.xml
+

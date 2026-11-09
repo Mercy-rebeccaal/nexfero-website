@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - Node Not Found | NexFero Innovations</title>
+  <meta name="description" content="The requested route does not exist on NexFero Innovations." />
+  <meta name="robots" content="noindex, follow" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/animations.css" />
+
+  <style>
+    .error-container {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 1.5rem 3rem 1.5rem;
+      position: relative;
+    }
+    .error-code-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(4rem, 12vw, 8.5rem);
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--light-gold) 0%, var(--accent-gold) 50%, #B87B18 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 10px 40px rgba(249, 190, 74, 0.3);
+    }
+    .radar-visual {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 2px dashed rgba(249, 190, 74, 0.4);
+      position: relative;
+      margin: 0 auto 2rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 35px rgba(249, 190, 74, 0.15);
+    }
+    .radar-sweep {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, rgba(249, 190, 74, 0.4) 0deg, transparent 90deg);
+      animation: preloader-spin 3s linear infinite;
+    }
+    .radar-dot {
+      width: 12px;
+      height: 12px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #FFFFFF, 0 0 20px var(--accent-gold);
+    }
+    .error-routes-list {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar-wrapper scrolled" id="main-navbar">
+    <div class="container navbar-container">
+      <a href="index.html" class="nav-brand" aria-label="NexFero Innovations Home">
+        <img src="public/logo.svg" alt="NexFero Innovations Logo" class="nav-brand-logo" width="180" height="48" />
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="navbar-menu">
+          <li><a href="index.html#home" class="nav-link">Home</a></li>
+          <li><a href="index.html#services" class="nav-link">Services</a></li>
+          <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+          <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container error-container">
+      <div class="radar-visual">
+        <div class="radar-sweep"></div>
+        <div class="radar-dot"></div>
+      </div>
+
+      <div class="section-label" style="margin-bottom: 0.8rem;">
+        <span class="label-bullet"></span>
+        <span>Telemetry Alert: Signal Lost</span>
+      </div>
+
+      <div class="error-code-badge">404</div>
+
+      <h1 style="font-size: clamp(1.8rem, 3.5vw, 2.5rem); margin-bottom: 1rem;">
+        Neural Node Disconnected.
+      </h1>
+
+      <p style="max-width: 580px; font-size: 1.1rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 2rem;">
+        The requested URL could not be resolved within our current system coordinates. The resource may have been relocated, upgraded, or temporarily unlinked.
+      </p>
+
+      <div class="error-routes-list">
+        <a href="index.html#services" class="tech-pill">Explore Services</a>
+        <a href="index.html#projects" class="tech-pill">Browse Projects</a>
+        <a href="index.html#about" class="tech-pill">About NexFero</a>
+        <a href="index.html#contact" class="tech-pill">Contact Engineers</a>
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+        <a href="index.html" class="btn-gold">
+          <span>← Return to Headquarters</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-wrapper" style="padding: 2.5rem 0;">
+    <div class="container" style="text-align: center;">
+      <p class="footer-copy">© 2026 NexFero Innovations. "Beyond Ideas. Beyond Limits." | Chennai, India.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
+
