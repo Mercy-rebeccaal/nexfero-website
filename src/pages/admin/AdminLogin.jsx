@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 /**
  * AdminLogin - Secure Authentication Gateway for NexFero Executive Portal
+ * Restricted exclusively to designated executive administrators.
  */
 export default function AdminLogin({ onLoginSuccess, onNavigateHome }) {
   const [email, setEmail] = useState('');
@@ -16,11 +17,13 @@ export default function AdminLogin({ onLoginSuccess, onNavigateHome }) {
     setErrorMessage('');
     setIsLoading(true);
 
+    const inputEmail = email.trim().toLowerCase();
+
     try {
       const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), password })
+        body: JSON.stringify({ email: inputEmail, password })
       });
 
       const data = await response.json();
@@ -37,28 +40,43 @@ export default function AdminLogin({ onLoginSuccess, onNavigateHome }) {
         if (onLoginSuccess) onLoginSuccess(data.user);
         return;
       } else {
-        setErrorMessage(data.message || 'Authentication failed. Please verify your credentials.');
+        setErrorMessage(data.message || 'Authentication failed. Please verify your administrative credentials.');
       }
     } catch (err) {
-      // Local fallback for offline/preview environments
-      if (email.trim().toLowerCase() === 'admin@nexfero.com' && password === 'Nexfero@2026!') {
-        const dummyUser = { email: 'admin@nexfero.com', name: 'NexFero Executive Administrator', role: 'Superadmin' };
-        localStorage.setItem('nexfero_admin_token', 'local_jwt_nexfero_token_2026');
-        localStorage.setItem('nexfero_admin_user', JSON.stringify(dummyUser));
+      // Local verified fallback for offline or standalone environments
+      let matchedUser = null;
+      if (inputEmail === 'karthisuhilan07@gmail.com' && password === 'Karthi@0709') {
+        matchedUser = {
+          email: 'karthisuhilan07@gmail.com',
+          name: 'Karthi Suhilan',
+          role: 'Executive Administrator'
+        };
+      } else if (inputEmail === 'mercy2005rebeccal@gmail.com' && password === 'Mercy@123') {
+        matchedUser = {
+          email: 'mercy2005rebeccal@gmail.com',
+          name: 'Mercy Rebeccal',
+          role: 'Executive Administrator'
+        };
+      }
+
+      if (matchedUser) {
+        const fallbackToken = `nxf_local_token_${Date.now()}`;
+        if (rememberMe) {
+          localStorage.setItem('nexfero_admin_token', fallbackToken);
+          localStorage.setItem('nexfero_admin_user', JSON.stringify(matchedUser));
+        } else {
+          sessionStorage.setItem('nexfero_admin_token', fallbackToken);
+          sessionStorage.setItem('nexfero_admin_user', JSON.stringify(matchedUser));
+        }
         setIsLoading(false);
-        if (onLoginSuccess) onLoginSuccess(dummyUser);
+        if (onLoginSuccess) onLoginSuccess(matchedUser);
         return;
       }
-      setErrorMessage('Unable to connect to auth service. Use admin@nexfero.com / Nexfero@2026!');
+
+      setErrorMessage('Access denied. Only registered administrative accounts are permitted.');
     }
 
     setIsLoading(false);
-  };
-
-  const handleFillDemo = () => {
-    setEmail('admin@nexfero.com');
-    setPassword('Nexfero@2026!');
-    setErrorMessage('');
   };
 
   return (
@@ -101,42 +119,8 @@ export default function AdminLogin({ onLoginSuccess, onNavigateHome }) {
             Executive Management Portal
           </h1>
           <p style={{ fontSize: '0.86rem', color: '#A8CDC4', margin: 0 }}>
-            Authorized personnel access for NexFero Innovations
+            Restricted access for authorized NexFero administrators
           </p>
-        </div>
-
-        {/* Demo Credentials Quick-Fill Banner */}
-        <div style={{
-          backgroundColor: 'rgba(3, 98, 76, 0.35)',
-          border: '1px dashed rgba(249, 190, 74, 0.5)',
-          borderRadius: '8px',
-          padding: '0.75rem 1rem',
-          marginBottom: '1.5rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: '0.82rem'
-        }}>
-          <div>
-            <div style={{ color: '#FFD477', fontWeight: 600 }}>Default Admin Credentials:</div>
-            <div style={{ color: '#F1F7F6', fontFamily: 'monospace' }}>admin@nexfero.com / Nexfero@2026!</div>
-          </div>
-          <button
-            type="button"
-            onClick={handleFillDemo}
-            style={{
-              background: 'rgba(249, 190, 74, 0.18)',
-              border: '1px solid #F9BE4A',
-              color: '#FFD477',
-              borderRadius: '4px',
-              padding: '0.35rem 0.65rem',
-              cursor: 'pointer',
-              fontSize: '0.75rem',
-              fontWeight: 600
-            }}
-          >
-            Auto Fill
-          </button>
         </div>
 
         {/* Error Alert */}
@@ -170,14 +154,15 @@ export default function AdminLogin({ onLoginSuccess, onNavigateHome }) {
               color: '#A8CDC4',
               marginBottom: '0.4rem'
             }}>
-              Administrative Email
+              Administrative Username / Email
             </label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@nexfero.com"
+              placeholder="Enter your administrative email"
+              autoComplete="username"
               style={{
                 width: '100%',
                 padding: '0.85rem 1rem',
@@ -201,7 +186,7 @@ export default function AdminLogin({ onLoginSuccess, onNavigateHome }) {
                 letterSpacing: '0.06em',
                 color: '#A8CDC4'
               }}>
-                Security Key
+                Security Password
               </label>
               <button
                 type="button"
@@ -224,6 +209,7 @@ export default function AdminLogin({ onLoginSuccess, onNavigateHome }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••••••"
+              autoComplete="current-password"
               style={{
                 width: '100%',
                 padding: '0.85rem 1rem',

@@ -5,7 +5,15 @@ import Section3DVisual from './Section3DVisual';
 export default function Projects({ onOpenProjectModal }) {
   const [filter, setFilter] = useState('all');
 
-  const categories = ['all', 'VR & Education', 'Assistive AI & IoT', 'Machine Learning', 'Full-Stack Web', 'Generative AI', 'Healthcare Systems', 'Web Platforms'];
+  const categories = [
+    'all',
+    'VR & Education',
+    'Assistive AI & IoT',
+    'Machine Learning',
+    'Full-Stack Web',
+    'Generative AI',
+    'Healthcare Systems'
+  ];
 
   const filtered =
     filter === 'all'
@@ -24,7 +32,7 @@ export default function Projects({ onOpenProjectModal }) {
             Innovation Beyond <span className="gold-gradient-text">Imagination.</span>
           </h2>
           <p className="section-description">
-            Explore our real-world software architectures, research prototypes, and applied systems across AI, computer vision, smart embedded IoT, and enterprise web solutions.
+            Explore our real-world software architectures, research prototypes, and applied systems across AI, computer vision, smart embedded IoT, and enterprise full-stack solutions.
           </p>
         </div>
 
@@ -37,12 +45,12 @@ export default function Projects({ onOpenProjectModal }) {
               className={`project-filter-btn ${filter.toLowerCase() === cat.toLowerCase() ? 'active' : ''}`}
               onClick={() => setFilter(cat)}
             >
-              {cat === 'all' ? 'All 7 Projects' : cat}
+              {cat === 'all' ? 'All 6 Projects' : cat}
             </button>
           ))}
         </div>
 
-        {/* 7 Projects Grid */}
+        {/* 6 Projects Grid */}
         <div className="projects-grid" id="projects-grid">
           {filtered.map((project) => (
             <article key={project.id} className="project-card interactive-target">

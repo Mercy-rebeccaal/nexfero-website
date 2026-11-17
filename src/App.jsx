@@ -259,7 +259,7 @@ export default function App() {
         {/* Company Identity & Vision */}
         <About />
 
-        {/* 7 Official Services */}
+        {/* 6 Official Services */}
         <Services onOpenServiceModal={handleOpenService} />
 
         {/* Value Proposition */}
@@ -268,7 +268,7 @@ export default function App() {
         {/* Technologies Grid */}
         <TechStack />
 
-        {/* 7 Core Engineering Projects with 3D Models */}
+        {/* 6 Core Engineering Projects with 3D Models */}
         <Projects onOpenProjectModal={handleOpenProject} />
 
         {/* Development Methodology */}

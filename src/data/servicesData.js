@@ -1,6 +1,6 @@
 /**
  * NexFero Innovations - Official Services Data
- * Covers the 7 core offerings from the master specification.
+ * 6 Core Offerings
  */
 
 export const SERVICES_DATA = {
@@ -9,10 +9,11 @@ export const SERVICES_DATA = {
     title: 'Website Design and Development',
     badge: 'Core Specialty',
     tagline: 'High-Impact, Fast, Responsive Websites Built with Cutting-Edge Standards',
+    shortDesc: 'Ultra-responsive, high-converting web applications engineered with modern JavaScript, scalable APIs, and clean UX architecture.',
     description: 'We design and engineer bespoke web experiences that merge contemporary aesthetics with lightning-fast performance, accessibility, and high conversion structures.',
     capabilities: [
       'Custom Responsive Web Design',
-      'Interactive Micro-Animations & 3D Elements',
+      'Interactive Micro-Animations & Dynamic Elements',
       'Search Engine Optimization (SEO) & Performance Tuning',
       'Cross-Browser & Multi-Device Optimization'
     ],
@@ -22,7 +23,6 @@ export const SERVICES_DATA = {
       'Mobile-first responsive layouts across all viewports',
       'Structured Schema.org markup & meta tags'
     ],
-    visualType: 'web-design',
     order: 1
   },
   'full-stack-dev': {
@@ -30,6 +30,7 @@ export const SERVICES_DATA = {
     title: 'Full Stack Development',
     badge: 'Enterprise Architecture',
     tagline: 'Seamlessly Integrated Frontends, Resilient APIs, and Scalable Databases',
+    shortDesc: 'End-to-end full stack software engineering combining modern client interfaces with resilient backend logic and high-throughput data layers.',
     description: 'End-to-end full stack software engineering. We develop scalable client-facing interfaces tightly coupled with robust server-side business logic and high-throughput data layers.',
     capabilities: [
       'Modern Single Page Applications (SPAs)',
@@ -43,7 +44,6 @@ export const SERVICES_DATA = {
       'Relational or document schema migrations',
       'Secure token-based auth workflows'
     ],
-    visualType: 'full-stack',
     order: 2
   },
   'software-app-dev': {
@@ -51,6 +51,7 @@ export const SERVICES_DATA = {
     title: 'Software Application Development',
     badge: 'Custom Engineering',
     tagline: 'Tailored Software Solutions Built for Reliability and High Concurrency',
+    shortDesc: 'Custom software architectures addressing complex operational requirements, automating workflows, and eliminating system bottlenecks.',
     description: 'We develop custom software architectures that address complex operational requirements, automating internal workflows and eliminating business bottlenecks.',
     capabilities: [
       'Custom Enterprise Software Systems',
@@ -64,7 +65,6 @@ export const SERVICES_DATA = {
       'Unit and integration test suites',
       'Operational runbooks and deployment guides'
     ],
-    visualType: 'software-app',
     order: 3
   },
   'ai-ml-solutions': {
@@ -72,6 +72,7 @@ export const SERVICES_DATA = {
     title: 'AI and Machine Learning Solutions',
     badge: 'Intelligent Systems',
     tagline: 'Transforming Data into Predictive Intelligence and Cognitive Automation',
+    shortDesc: 'Predictive analytics, intelligent automation pipelines, and generative AI models delivering measurable business intelligence.',
     description: 'We architect and deploy practical machine learning models and generative AI systems that deliver measurable business advantages, from predictive analytics to intelligent automation.',
     capabilities: [
       'Supervised & Unsupervised Machine Learning Models',
@@ -85,7 +86,6 @@ export const SERVICES_DATA = {
       'Interactive Streamlit / React analytical interfaces',
       'Model validation telemetry and accuracy benchmarks'
     ],
-    visualType: 'ai-brain',
     order: 4
   },
   'database-management': {
@@ -93,6 +93,7 @@ export const SERVICES_DATA = {
     title: 'Database Management',
     badge: 'Data Integrity',
     tagline: 'Optimized Data Storage, ACID Transactions, and High-Throughput Queries',
+    shortDesc: 'High-throughput relational and document database architectures with strict ACID consistency, optimized queries, and automated backups.',
     description: 'Designing resilient database architectures that maintain strict consistency, prevent concurrency conflicts, and execute sub-millisecond queries under peak loads.',
     capabilities: [
       'Relational Schema Design (MySQL, PostgreSQL, SQLite)',
@@ -106,7 +107,6 @@ export const SERVICES_DATA = {
       'Optimized indexing and performance profiling reports',
       'Automated backup and disaster recovery plans'
     ],
-    visualType: 'database-disk',
     order: 5
   },
   'automation-smart-tech': {
@@ -114,6 +114,7 @@ export const SERVICES_DATA = {
     title: 'Automation and Smart Technology Solutions',
     badge: 'Emerging Tech',
     tagline: 'Bridging Hardware, Sensors, Embedded Systems, and Smart Automations',
+    shortDesc: 'Tactile IoT sensor arrays, embedded hardware integrations, computer vision systems, and automated real-time hardware telemetry.',
     description: 'From assistive IoT devices with sensor arrays to computer vision navigation systems, we develop smart connected technologies that solve tactile, real-world problems.',
     capabilities: [
       'Smart Sensor & Camera Integration',
@@ -127,28 +128,6 @@ export const SERVICES_DATA = {
       'Sensor telemetry processing firmware scripts',
       'Prototype simulation testing benchmarks'
     ],
-    visualType: 'smart-tech',
     order: 6
-  },
-  'custom-digital-projects': {
-    key: 'custom-digital-projects',
-    title: 'Custom Digital Projects',
-    badge: 'Innovation Lab',
-    tagline: 'Experimental Prototypes, XR/VR Experiences, and Specialized Software',
-    description: 'Have a non-standard product idea? Our innovation team brings unique technical concepts to life, including VR simulations, specialized portals, and bespoke web experiments.',
-    capabilities: [
-      'Virtual Reality (VR) & Augmented Reality (XR) Platforms',
-      'Interactive 3D Simulations in Unity',
-      'Custom Niche Web Applications & Portals',
-      'Rapid Technical Proof-of-Concept Prototyping'
-    ],
-    technologies: ['Unity', 'C#', 'VR', 'XR', 'WebGL', 'Modern Web APIs'],
-    deliverables: [
-      'Interactive 3D / XR simulation builds',
-      'Complete proof-of-concept prototype source code',
-      'Technical architecture evaluation documentation'
-    ],
-    visualType: 'custom-crystal',
-    order: 7
   }
 };

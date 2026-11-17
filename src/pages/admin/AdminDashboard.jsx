@@ -273,7 +273,7 @@ export default function AdminDashboard({ user, onLogout, onNavigateHome }) {
                 textAlign: 'left'
               }}
             >
-              <span>🚀</span> 7 Core Projects
+              <span>🚀</span> Core Projects
             </button>
 
             <button
@@ -293,7 +293,7 @@ export default function AdminDashboard({ user, onLogout, onNavigateHome }) {
                 textAlign: 'left'
               }}
             >
-              <span>⚙</span> 7 Official Services
+              <span>⚙</span> Official Services
             </button>
 
             <button
@@ -340,7 +340,7 @@ export default function AdminDashboard({ user, onLogout, onNavigateHome }) {
               </span>
             </div>
             <div style={{ fontSize: '0.74rem', color: '#707D7D' }}>
-              User: {user?.email || 'admin@nexfero.com'}
+              User: {user?.email || 'Authorized Administrator'}
             </div>
           </div>
 
@@ -862,12 +862,12 @@ export default function AdminDashboard({ user, onLogout, onNavigateHome }) {
           </div>
         )}
 
-        {/* Tab 2: 7 Core Projects Showcase */}
+        {/* Tab 2: Core Projects Showcase */}
         {activeTab === 'projects' && (
           <div>
             <div style={{ marginBottom: '2rem' }}>
               <h1 style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0 0 0.3rem 0', color: '#F1F7F6' }}>
-                7 Core NexFero Engineering Projects
+                Core NexFero Engineering Projects
               </h1>
               <p style={{ margin: 0, color: '#A8CDC4', fontSize: '0.92rem' }}>
                 Catalog of proprietary prototypes, research builds, and engineering implementations.
@@ -939,12 +939,12 @@ export default function AdminDashboard({ user, onLogout, onNavigateHome }) {
           </div>
         )}
 
-        {/* Tab 3: 7 Official Services Showcase */}
+        {/* Tab 3: Official Services Showcase */}
         {activeTab === 'services' && (
           <div>
             <div style={{ marginBottom: '2rem' }}>
               <h1 style={{ fontSize: '1.8rem', fontWeight: 700, margin: '0 0 0.3rem 0', color: '#F1F7F6' }}>
-                7 Official NexFero Technology Services
+                Official NexFero Technology Services
               </h1>
               <p style={{ margin: 0, color: '#A8CDC4', fontSize: '0.92rem' }}>
                 Current production offerings, capabilities, and deliverables managed by NexFero engineering teams.
@@ -1096,3 +1096,4 @@ export default function AdminDashboard({ user, onLogout, onNavigateHome }) {
     </div>
   );
 }
+

@@ -1,6 +1,6 @@
 /**
  * NexFero Innovations - Official Project Portfolio Data
- * Strictly maintains the 7 genuine projects from the master specification.
+ * 6 Core Engineering Projects
  */
 
 export const PROJECTS_DATA = [
@@ -75,17 +75,5 @@ export const PROJECTS_DATA = [
     visualType: 'blood-donation',
     visualDesc: 'Blood donation symbol with a digital healthcare interface',
     order: 6
-  },
-  {
-    id: 'learning-management-system',
-    title: 'Learning Management System (LMS)',
-    category: 'Web Platforms',
-    tagline: 'Modular Enterprise Academic Portal & Course Management',
-    shortDescription: 'Developed a web-based LMS using Java Servlets and JSP deployed on Apache Tomcat with authentication and course modules.',
-    fullDescription: 'Developed a web-based LMS using Java Servlets and JSP deployed on Apache Tomcat. Implemented user authentication, session management, course listing, assignment viewing, and profile modules with structured navigation and responsive UI.',
-    technologies: ['Java', 'JSP', 'Servlets', 'Apache Tomcat', 'HTML', 'CSS'],
-    visualType: 'lms-books',
-    visualDesc: 'Floating digital books, learning dashboard and graduation cap',
-    order: 7
   }
 ];

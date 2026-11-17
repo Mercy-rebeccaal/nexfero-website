@@ -423,3 +423,4 @@ export default function Section3DVisual({ type = 'hero-tesseract', zoom = 1, wid
     </div>
   );
 }
+

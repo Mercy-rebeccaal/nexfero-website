@@ -184,22 +184,34 @@ const server = http.createServer((req, res) => {
         const email = (creds.email || '').trim().toLowerCase();
         const password = creds.password || '';
 
-        // Default credentials from prompt
-        if (email === 'admin@nexfero.com' && password === 'Nexfero@2026!') {
-          const user = {
-            id: 'nxf-adm-01',
-            email: 'admin@nexfero.com',
-            name: 'NexFero Executive Administrator',
-            role: 'Superadmin',
+        // Authorized Administrative Accounts
+        let authorizedUser = null;
+        if (email === 'karthisuhilan07@gmail.com' && password === 'Karthi@0709') {
+          authorizedUser = {
+            id: 'nxf-adm-karthi',
+            email: 'karthisuhilan07@gmail.com',
+            name: 'Karthi Suhilan',
+            role: 'Executive Administrator',
             location: 'Chennai, India'
           };
-          const token = `nxf_jwt_${Buffer.from(JSON.stringify({ id: user.id, time: Date.now() })).toString('base64')}`;
+        } else if (email === 'mercy2005rebeccal@gmail.com' && password === 'Mercy@123') {
+          authorizedUser = {
+            id: 'nxf-adm-mercy',
+            email: 'mercy2005rebeccal@gmail.com',
+            name: 'Mercy Rebeccal',
+            role: 'Executive Administrator',
+            location: 'Chennai, India'
+          };
+        }
+
+        if (authorizedUser) {
+          const token = `nxf_jwt_${Buffer.from(JSON.stringify({ id: authorizedUser.id, email: authorizedUser.email, time: Date.now() })).toString('base64')}`;
 
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({
             status: 'success',
             token: token,
-            user: user
+            user: authorizedUser
           }));
           return;
         }

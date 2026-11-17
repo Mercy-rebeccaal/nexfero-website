@@ -71,7 +71,6 @@ export default function Footer({ onOpenAdmin }) {
                 <li><a href="#services">AI & Machine Learning</a></li>
                 <li><a href="#services">Database Architecture</a></li>
                 <li><a href="#services">Automation & Smart Tech</a></li>
-                <li><a href="#services">Custom Digital Projects</a></li>
               </ul>
             </div>
 
