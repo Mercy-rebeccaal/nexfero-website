@@ -1,164 +1,91 @@
+/**
+ * NexFero Innovations - Official Project Portfolio Data
+ * Strictly maintains the 7 genuine projects from the master specification.
+ */
+
 export const PROJECTS_DATA = [
   {
-    id: 'cogniflow-ai',
-    title: 'CogniFlow AI',
-    category: 'Artificial Intelligence',
-    tagline: 'Autonomous Multi-Agent Workflow & NLP Engine',
-    description: 'An enterprise-grade cognitive orchestrator that coordinates specialized AI sub-agents to analyze unstructured documentation, synthesize action plans, and automate multi-step business decisions.',
-    fullDescription: 'CogniFlow AI is an advanced proof-of-concept exploring deterministic guardrails around probabilistic large language models. Built for enterprises managing heavy operational workflows, it implements contextual memory retrieval, dynamic task decomposition, and verifiable audit trails.',
-    badge: 'AI Prototype',
-    tags: ['Python', 'PyTorch', 'FastAPI', 'React', 'Vector DB'],
-    metrics: [
-      { label: 'Latency', value: '< 240ms' },
-      { label: 'Agent Types', value: '8 Specialized' },
-      { label: 'Architecture', value: 'Event-Driven' }
-    ],
-    features: [
-      'Dynamic multi-agent routing with contextual handoffs',
-      'Retrieval-Augmented Generation (RAG) with semantic re-ranking',
-      'Deterministic safety evaluation and hallucination scoring',
-      'Streaming responses with granular token introspection'
-    ],
-    techDetails: {
-      frontend: 'React, Tailwind CSS, WebSockets',
-      backend: 'Python 3.11, FastAPI, Celery',
-      ai: 'HuggingFace Transformers, LangChain, FAISS',
-      cloud: 'Docker containers, AWS ECS'
-    }
+    id: 'smart-learning-environment',
+    title: 'Smart Learning Environment',
+    category: 'VR & Education',
+    tagline: 'VR-Based Learning Platform with Interactive 3D Simulations',
+    shortDescription: 'Built a VR-based learning platform with interactive 3D simulations and virtual labs to simplify complex science concepts.',
+    fullDescription: 'Built a VR-based learning platform with interactive 3D simulations and virtual labs to simplify complex science concepts. Implemented using Unity, C#, and XR tools to enhance engagement and practical understanding.',
+    technologies: ['Unity', 'C#', 'VR', 'XR'],
+    visualType: 'vr-classroom',
+    visualDesc: 'Virtual classroom with interactive floating 3D science objects',
+    order: 1
   },
   {
-    id: 'novacloud-erp',
-    title: 'NovaCloud ERP',
-    category: 'Web Applications',
-    tagline: 'High-Throughput Cloud Resource & Analytics Suite',
-    description: 'A modern, modular enterprise platform unifying real-time inventory telemetry, multi-entity financial ledgers, and team coordination in a single responsive dashboard.',
-    fullDescription: 'NovaCloud ERP demonstrates our full-stack web engineering capability. Designed to replace sluggish legacy ERP systems, it utilizes server-driven UI elements, optimistic updates, and offline-first data synchronization.',
-    badge: 'Full-Stack System',
-    tags: ['React', 'Node.js', 'Express', 'PostgreSQL', 'Docker'],
-    metrics: [
-      { label: 'Throughput', value: '10k+ req/sec' },
-      { label: 'Sync Engine', value: 'CRDT / Delta' },
-      { label: 'UI Response', value: 'Instantaneous' }
-    ],
-    features: [
-      'Sub-second executive analytics and chart rendering',
-      'Granular role-based access control (RBAC) with audit logs',
-      'Automated invoice reconciliation and tax calculation engine',
-      'Responsive layout optimized for desktops, tablets, and phones'
-    ],
-    techDetails: {
-      frontend: 'React, Vite, Chart.js',
-      backend: 'Node.js, Express, Knex.js',
-      database: 'PostgreSQL with connection pooling',
-      devops: 'Docker, GitHub Actions, NGINX'
-    }
+    id: 'atlas-assistive-tech',
+    title: 'ATLAS – An Assistive Technology for Visually Impaired',
+    category: 'Assistive AI & IoT',
+    tagline: 'AI-Enabled Smart Navigation Cane with 360° Vision',
+    shortDescription: 'R&D project involving an AI-enabled smart cane with a 360° camera and obstacle sensors, providing real-time voice guidance for safer navigation.',
+    fullDescription: 'R&D project involving an AI-enabled smart cane with a 360° camera and obstacle sensors, providing real-time voice guidance for safer navigation. Designed the system architecture and hardware layout for easy and reliable use.',
+    technologies: ['Artificial Intelligence', 'Camera Systems', 'Sensors', 'Embedded Hardware'],
+    visualType: 'smart-cane',
+    visualDesc: 'Smart navigation cane with sensors and 360° camera',
+    order: 2
   },
   {
-    id: 'sentinx-security',
-    title: 'SentinX Zero-Trust',
-    category: 'Security Solutions',
-    tagline: 'Continuous Device Posture & Threat Monitor',
-    description: 'An adaptive security framework providing behavioral anomaly detection, micro-segmentation enforcement, and continuous identity verification across distributed environments.',
-    fullDescription: 'SentinX was conceived to address modern perimeter-less enterprise landscapes. It continually assesses device health, connection hygiene, and behavioral patterns to dynamically adjust network authorization levels.',
-    badge: 'Cybersecurity Architecture',
-    tags: ['Python', 'Machine Learning', 'WebSockets', 'Flask', 'SQLite'],
-    metrics: [
-      { label: 'Detection Speed', value: 'Real-Time' },
-      { label: 'False Positives', value: '< 0.4%' },
-      { label: 'Security Level', value: 'Zero-Trust' }
-    ],
-    features: [
-      'Continuous behavioral heuristic scoring via machine learning',
-      'Automated lateral movement quarantine triggers',
-      'Low-footprint endpoint telemetry agent',
-      'Interactive SOC (Security Operations Center) visual map'
-    ],
-    techDetails: {
-      core: 'Python, Scikit-learn, NumPy',
-      telemetry: 'WebSockets, gRPC streams',
-      storage: 'Time-series SQLite database',
-      frontend: 'Lightweight responsive canvas dashboard'
-    }
-  },
-  {
-    id: 'predictr-ml',
-    title: 'Predictr ML',
+    id: 'traffic-signal-optimization',
+    title: 'Traffic Signal Timing Optimization',
     category: 'Machine Learning',
-    tagline: 'Time-Series Demand & Anomaly Forecasting',
-    description: 'A machine learning pipeline designed to forecast inventory swings, customer demand spikes, and macroeconomic trends with statistical confidence intervals.',
-    fullDescription: 'Predictr ML combines classical statistical models with modern deep learning transformers to provide actionable predictive intelligence for supply chain and retail decision makers.',
-    badge: 'ML Pipeline',
-    tags: ['Python', 'Scikit-learn', 'Pandas', 'Streamlit', 'NumPy'],
-    metrics: [
-      { label: 'Forecast Horizon', value: '90 Days' },
-      { label: 'Confidence', value: '95% Interval' },
-      { label: 'Training Time', value: 'Optimized' }
-    ],
-    features: [
-      'Automated feature extraction and seasonality decomposition',
-      'Dynamic hyperparameter tuning with Bayesian optimization',
-      'Interactive sensitivity simulation sliders in real time',
-      'Exportable forecast reports in JSON, CSV, and visual formats'
-    ],
-    techDetails: {
-      mlStack: 'Python, Scikit-learn, XGBoost, Prophet',
-      processing: 'Pandas, Polars, NumPy',
-      interface: 'Streamlit & React embedding',
-      deployment: 'FastAPI inference microservice'
-    }
+    tagline: 'Predictive Traffic Signal Timings Using Random Forest',
+    shortDescription: 'Built a Random Forest model to predict optimal traffic signal timings using real-world traffic data.',
+    fullDescription: 'Built a Random Forest model to predict optimal traffic signal timings using real-world traffic data. Deployed a Streamlit dashboard to visualize predictions and assist congestion reduction.',
+    technologies: ['Python', 'Random Forest', 'Machine Learning', 'Streamlit'],
+    visualType: 'traffic-signals',
+    visualDesc: 'Smart traffic signal with connected roads and data visualization',
+    order: 3
   },
   {
-    id: 'nexpulse-health',
-    title: 'NexPulse Platform',
-    category: 'Digital Platforms',
-    tagline: 'Smart Telehealth Consultation & Intelligent Triage',
-    description: 'A resilient digital health platform featuring smart preliminary triage, secure WebRTC audio/video consultations, and encrypted health records management.',
-    fullDescription: 'NexPulse highlights our ability to build mission-critical, high-compliance digital platforms. It combines user-friendly booking workflows with AI-assisted symptom summaries to streamline clinician reviews.',
-    badge: 'Platform Engineering',
-    tags: ['WebRTC', 'React', 'Node.js', 'MongoDB', 'Socket.io'],
-    metrics: [
-      { label: 'Video Latency', value: '< 120ms' },
-      { label: 'Encryption', value: 'End-to-End' },
-      { label: 'Uptime Goal', value: '99.99%' }
-    ],
-    features: [
-      'Peer-to-peer encrypted HD video and crisp audio calling',
-      'Structured clinical symptom questionnaire with triage flags',
-      'Automated reminder dispatch via SMS and Email channels',
-      'Responsive accessibility compliance (WCAG AA)'
-    ],
-    techDetails: {
-      realtime: 'WebRTC mesh, Socket.io signaling',
-      frontend: 'React, CSS Grid, Accessible ARIA',
-      backend: 'Node.js, Express microservices',
-      database: 'Encrypted MongoDB database cluster'
-    }
+    id: 'event-management-portal',
+    title: 'Event Management and Registration Portal',
+    category: 'Full-Stack Web',
+    tagline: 'Spring Boot Event Portal with Automated Seat Concurrency',
+    shortDescription: 'A web-based application developed using Java and Spring Boot. Allows users to register for events while preventing overbooking by checking seat availability.',
+    fullDescription: 'A web-based application developed using Java and Spring Boot. Allows users to register for events while preventing overbooking by checking seat availability. The system ensures data consistency and avoids data loss using database transactions.',
+    technologies: ['Java', 'Spring Boot', 'MySQL', 'HTML', 'CSS'],
+    visualType: 'event-stage',
+    visualDesc: 'Modern event stage with registration interface',
+    order: 4
   },
   {
-    id: 'auracommerce-3d',
-    title: 'AuraCommerce 3D',
-    category: 'Web Applications',
-    tagline: 'Next-Generation Immersive WebGL E-Commerce Storefront',
-    description: 'An ultra-performant headless retail experience showcasing real-time 3D product customization, spatial lighting, and lightning-fast checkout transitions.',
-    fullDescription: 'AuraCommerce illustrates how cutting-edge 3D graphics on the web can boost customer engagement without sacrificing page load speeds or mobile responsiveness.',
-    badge: 'Interactive 3D Web',
-    tags: ['HTML5', 'CSS3', 'JavaScript', 'WebGL', 'Node.js'],
-    metrics: [
-      { label: 'LCP Score', value: '1.1s' },
-      { label: 'Frame Rate', value: 'Smooth 60 FPS' },
-      { label: 'Mobile Support', value: 'Touch-Optimized' }
-    ],
-    features: [
-      'Hardware-accelerated 3D product view with 360-degree rotation',
-      'Material and color swapper with realistic surface reflections',
-      'Micro-interactions with haptic and audio feedback options',
-      'Progressive asset loading with graceful 2D fallbacks'
-    ],
-    techDetails: {
-      graphics: 'HTML5 Canvas, WebGL, glTF asset pipeline',
-      frontend: 'Vanilla JavaScript ES6+, Modern CSS3',
-      cart: 'Client-side state management with indexedDB caching',
-      backend: 'RESTful Node.js API with MySQL database'
-    }
+    id: 'ai-resume-generator',
+    title: 'AI Resume & Cover Letter Generator',
+    category: 'Generative AI',
+    tagline: 'Generative AI-Powered ATS-Friendly Career Document Generator',
+    shortDescription: 'Developed an AI-powered application using Python, Streamlit, and Generative AI to create professional resumes and cover letters.',
+    fullDescription: 'Developed an AI-powered application using Python, Streamlit, and Generative AI to create professional resumes and cover letters. The application generates personalized content based on user input through a simple interface. It helps users quickly create well-structured and ATS-friendly resumes and cover letters.',
+    technologies: ['Python', 'Streamlit', 'Generative AI'],
+    visualType: 'ai-resume',
+    visualDesc: 'Floating AI-generated resume document with smart AI elements',
+    order: 5
+  },
+  {
+    id: 'blood-donation-system',
+    title: 'Blood Donation Management System',
+    category: 'Healthcare Systems',
+    tagline: 'Dynamic MVC Blood Group Matching and Donor Platform',
+    shortDescription: 'Developed a dynamic Blood Donation Management System using Java, JSP, and Servlets deployed on Apache Tomcat.',
+    fullDescription: 'Developed a dynamic Blood Donation Management System using Java, JSP, and Servlets deployed on Apache Tomcat. The application enables donor registration, city-based blood group search, and real-time result display using XML-based data storage. Implemented MVC architecture with server-side validation and request handling.',
+    technologies: ['Java', 'JSP', 'Servlets', 'Apache Tomcat', 'XML'],
+    visualType: 'blood-donation',
+    visualDesc: 'Blood donation symbol with a digital healthcare interface',
+    order: 6
+  },
+  {
+    id: 'learning-management-system',
+    title: 'Learning Management System (LMS)',
+    category: 'Web Platforms',
+    tagline: 'Modular Enterprise Academic Portal & Course Management',
+    shortDescription: 'Developed a web-based LMS using Java Servlets and JSP deployed on Apache Tomcat with authentication and course modules.',
+    fullDescription: 'Developed a web-based LMS using Java Servlets and JSP deployed on Apache Tomcat. Implemented user authentication, session management, course listing, assignment viewing, and profile modules with structured navigation and responsive UI.',
+    technologies: ['Java', 'JSP', 'Servlets', 'Apache Tomcat', 'HTML', 'CSS'],
+    visualType: 'lms-books',
+    visualDesc: 'Floating digital books, learning dashboard and graduation cap',
+    order: 7
   }
 ];

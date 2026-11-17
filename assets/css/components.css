@@ -1698,3 +1698,353 @@ dialog::backdrop {
   font-size: 0.8rem;
 }
 
+
+/* ============================================================
+   14. CINEMATIC HERO SCROLL ZOOM & 3D CANVAS VISUALS
+   ============================================================ */
+.hero-cinematic-stage {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  transition: transform 0.1s ease-out;
+}
+
+.hero-3d-zoom-canvas-wrap {
+  width: 100%;
+  max-width: 580px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1), filter 0.12s;
+  will-change: transform;
+}
+
+.canvas-3d-scene {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Individual 3D Visual Cards for Sections and Projects */
+.section-3d-visual-card {
+  width: 100%;
+  height: 220px;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 223, 129, 0.08) 0%, rgba(3, 34, 33, 0.95) 75%);
+  border: 1px solid var(--emerald-border);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-3d-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Project Visual Container */
+.project-card-visual-canvas {
+  width: 100%;
+  height: 190px;
+  background: #011413;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(44, 194, 149, 0.2);
+}
+
+/* ============================================================
+   15. SEPARATE SECURE ADMIN SYSTEM
+   ============================================================ */
+.admin-login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background: radial-gradient(circle at 50% 30%, #032221 0%, #000F0F 100%);
+  position: relative;
+}
+
+.admin-login-box {
+  width: 100%;
+  max-width: 460px;
+  background: rgba(6, 48, 40, 0.88);
+  border: 1.5px solid var(--emerald-border-bright);
+  border-radius: var(--radius-xl);
+  padding: 3.2rem 2.5rem;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8), var(--shadow-emerald);
+  backdrop-filter: blur(20px);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-login-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-emerald), var(--color-mountain-meadow), var(--accent-gold));
+}
+
+.admin-login-logo {
+  max-height: 58px;
+  width: auto;
+  margin: 0 auto 1.5rem auto;
+  object-fit: contain;
+}
+
+.admin-layout-container {
+  display: flex;
+  min-height: 100vh;
+  background: #000F0F;
+  color: #F1F7F6;
+}
+
+/* Admin Sidebar */
+.admin-sidebar {
+  width: 280px;
+  background: #032221;
+  border-right: 1px solid var(--emerald-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
+  transition: width 0.3s ease;
+}
+
+.admin-sidebar-header {
+  padding: 1.8rem 1.5rem;
+  border-bottom: 1px solid rgba(44, 194, 149, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.admin-sidebar-nav {
+  list-style: none;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.admin-nav-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1.2rem;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.admin-nav-btn:hover {
+  background: rgba(44, 194, 149, 0.12);
+  color: #FFFFFF;
+}
+
+.admin-nav-btn.active {
+  background: linear-gradient(90deg, rgba(0, 223, 129, 0.22) 0%, rgba(3, 98, 76, 0.35) 100%);
+  border-left: 3px solid var(--accent-emerald);
+  color: var(--accent-emerald);
+  font-weight: 700;
+}
+
+.admin-sidebar-footer {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(44, 194, 149, 0.2);
+}
+
+/* Admin Content Area */
+.admin-main-viewport {
+  flex-grow: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-top-bar {
+  height: 74px;
+  background: rgba(3, 34, 33, 0.95);
+  border-bottom: 1px solid var(--emerald-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+.admin-content-body {
+  padding: 2.5rem;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+/* Overview Stat Cards Grid */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.admin-stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--emerald-border);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-emerald);
+  box-shadow: 0 8px 24px rgba(0, 223, 129, 0.18);
+}
+
+.stat-card-val {
+  font-size: 2.2rem;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  color: #FFFFFF;
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.stat-card-label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: rgba(0, 223, 129, 0.15);
+  border: 1px solid var(--accent-emerald);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-emerald);
+  font-size: 1.3rem;
+}
+
+/* Status Badges */
+.status-pill {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.status-new {
+  background: rgba(0, 223, 129, 0.2);
+  color: #00DF81;
+  border: 1px solid rgba(0, 223, 129, 0.5);
+}
+
+.status-pending {
+  background: rgba(249, 190, 74, 0.2);
+  color: #FFD477;
+  border: 1px solid rgba(249, 190, 74, 0.5);
+}
+
+.status-contacted {
+  background: rgba(44, 194, 149, 0.2);
+  color: #2CC295;
+  border: 1px solid rgba(44, 194, 149, 0.5);
+}
+
+.status-inprogress {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38BDF8;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+}
+
+.status-completed {
+  background: rgba(34, 197, 94, 0.25);
+  color: #4ADE80;
+  border: 1px solid rgba(34, 197, 94, 0.6);
+}
+
+.status-rejected {
+  background: rgba(239, 68, 68, 0.2);
+  color: #F87171;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+/* Live Pulse Indicator for SSE */
+.live-stream-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-full);
+  background: rgba(0, 223, 129, 0.15);
+  border: 1px solid var(--accent-emerald);
+  color: var(--accent-emerald);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.live-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00DF81;
+  box-shadow: 0 0 10px #00DF81;
+  animation: pulse-glow 1.5s infinite ease-in-out;
+}
+
+@media (max-width: 900px) {
+  .admin-layout-container {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .admin-top-bar {
+    padding: 0 1rem;
+  }
+  .admin-content-body {
+    padding: 1.5rem;
+  }
+}

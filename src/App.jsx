@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -9,31 +9,52 @@ import Projects from './components/Projects';
 import Process from './components/Process';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import CustomCursor from './components/CustomCursor';
 
-import { SERVICES_DATA } from './data/servicesData';
-import { PROJECTS_DATA } from './data/projectsData';
-
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
 
+import { SERVICES_DATA } from './data/servicesData';
+import { PROJECTS_DATA } from './data/projectsData';
+
 import './styles/global.css';
 
+/**
+ * NexFero Innovations - Master Application Component
+ * "Beyond Ideas. Beyond Limits."
+ */
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [currentRoute, setCurrentRoute] = useState(window.location.pathname);
-  const [activeModal, setActiveModal] = useState(null); // { type: 'service'|'project'|'success'|'admin', data: any }
+  const [activeModal, setActiveModal] = useState(null); // { type: 'service' | 'project' | 'success' | 'admin', data?: any, ... }
   const [inquiries, setInquiries] = useState([]);
+  const [adminUser, setAdminUser] = useState(() => {
+    try {
+      const stored = localStorage.getItem('nexfero_admin_user') || sessionStorage.getItem('nexfero_admin_user');
+      return stored ? JSON.parse(stored) : null;
+    } catch (e) {
+      return null;
+    }
+  });
 
-  // Preloader timeout
+  // 1. Initial Splash Screen Preloader
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 600);
+    }, 500);
     return () => clearTimeout(timer);
   }, []);
 
-  // Client-side route synchronization
+  // 2. Client-side Navigation Helper & Route Synchronization
+  const navigate = useCallback((path) => {
+    window.history.pushState({}, '', path);
+    setCurrentRoute(path);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   useEffect(() => {
     const handlePopState = () => {
       setCurrentRoute(window.location.pathname);
@@ -42,7 +63,7 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Fetch inquiries for admin modal
+  // 3. Inquiries Synchronization for Quick Modal
   const loadInquiries = useCallback(async () => {
     let list = [];
     try {
@@ -66,7 +87,7 @@ export default function App() {
     setInquiries(list);
   }, []);
 
-  // Global founder shortcut (Ctrl+Shift+I or Alt+A)
+  // 4. Global Executive Key Shortcut (Ctrl+Shift+I or Alt+A)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') || (e.altKey && e.key.toLowerCase() === 'a')) {
@@ -81,7 +102,7 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [loadInquiries]);
 
-  // Modal Handlers
+  // 5. Modal Handlers
   const handleOpenService = (key) => {
     const data = SERVICES_DATA[key];
     if (data) {
@@ -100,19 +121,37 @@ export default function App() {
     setActiveModal({ type: 'success', submission, backendOk });
   };
 
-  const handleOpenAdmin = () => {
-    loadInquiries();
-    setActiveModal({ type: 'admin' });
+  const handleOpenAdminPortal = () => {
+    if (adminUser) {
+      navigate('/admin/dashboard');
+    } else {
+      navigate('/admin/login');
+    }
   };
 
   const closeModal = () => {
     setActiveModal(null);
   };
 
-  // CSV Export for Founder Inquiries
+  // 6. Admin Authentication Callbacks
+  const handleLoginSuccess = (user) => {
+    setAdminUser(user);
+    navigate('/admin/dashboard');
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('nexfero_admin_token');
+    localStorage.removeItem('nexfero_admin_user');
+    sessionStorage.removeItem('nexfero_admin_token');
+    sessionStorage.removeItem('nexfero_admin_user');
+    setAdminUser(null);
+    navigate('/admin/login');
+  };
+
+  // 7. CSV Export for Modal Inquiries
   const exportCSV = () => {
     if (inquiries.length === 0) {
-      alert('No inquiries to export yet.');
+      alert('No inquiries to export.');
       return;
     }
     let csv = 'Tracking ID,Name,Email,Phone,Service,Budget,Timestamp,Message\n';
@@ -129,27 +168,67 @@ export default function App() {
     document.body.removeChild(link);
   };
 
-  // Clear Inquiries
-  const clearInquiries = () => {
-    if (window.confirm('Are you sure you want to clear locally stored inquiries?')) {
-      localStorage.removeItem('nexfero_inquiries');
-      setInquiries([]);
+  // 8. ROUTE RESOLUTION
+  // Dedicated Admin Routes
+  if (currentRoute === '/admin' || currentRoute === '/admin/' || currentRoute === '/admin/login') {
+    if (adminUser) {
+      return (
+        <AdminDashboard
+          user={adminUser}
+          onLogout={handleLogout}
+          onNavigateHome={() => navigate('/')}
+        />
+      );
     }
-  };
+    return (
+      <AdminLogin
+        onLoginSuccess={handleLoginSuccess}
+        onNavigateHome={() => navigate('/')}
+      />
+    );
+  }
 
-  // Route Views
+  if (
+    currentRoute === '/admin/dashboard' ||
+    currentRoute === '/admin/enquiries' ||
+    currentRoute === '/admin/projects' ||
+    currentRoute === '/admin/services' ||
+    currentRoute === '/admin/settings'
+  ) {
+    if (!adminUser) {
+      return (
+        <AdminLogin
+          onLoginSuccess={handleLoginSuccess}
+          onNavigateHome={() => navigate('/')}
+        />
+      );
+    }
+    return (
+      <AdminDashboard
+        user={adminUser}
+        onLogout={handleLogout}
+        onNavigateHome={() => navigate('/')}
+      />
+    );
+  }
+
+  // Legal & Auxiliary Pages
   if (currentRoute === '/privacy' || currentRoute === '/privacy.html') {
-    return <PrivacyPolicy />;
+    return <PrivacyPolicy onNavigateHome={() => navigate('/')} />;
   }
   if (currentRoute === '/terms' || currentRoute === '/terms.html') {
-    return <Terms />;
+    return <Terms onNavigateHome={() => navigate('/')} />;
   }
   if (currentRoute === '/404' || currentRoute === '/404.html') {
-    return <NotFound />;
+    return <NotFound onNavigateHome={() => navigate('/')} />;
   }
 
+  // MAIN HOMEPAGE EXPERIENCE
   return (
     <div className="nexfero-app">
+      {/* Desktop Glowing Custom Cursor */}
+      <CustomCursor />
+
       {/* 1. Animated Preloader */}
       {loading && (
         <div id="preloader" className="preloader" aria-hidden="true">
@@ -167,25 +246,32 @@ export default function App() {
       )}
 
       {/* 2. Navigation Header */}
-      <Navbar />
+      <Navbar onOpenAdmin={handleOpenAdminPortal} />
 
       {/* 3. Main Page Sections */}
       <main>
+        {/* Cinematic Hero with Scroll-Triggered Zoom */}
         <Hero onOpenTalk={() => {
           const el = document.getElementById('contact');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }} />
 
+        {/* Company Identity & Vision */}
         <About />
 
+        {/* 7 Official Services */}
         <Services onOpenServiceModal={handleOpenService} />
 
+        {/* Value Proposition */}
         <WhyChooseUs />
 
+        {/* Technologies Grid */}
         <TechStack />
 
+        {/* 7 Core Engineering Projects with 3D Models */}
         <Projects onOpenProjectModal={handleOpenProject} />
 
+        {/* Development Methodology */}
         <Process />
 
         {/* Call to Action Banner */}
@@ -200,7 +286,7 @@ export default function App() {
                 Have an Idea? <span className="gold-gradient-text">Let's Make It Happen.</span>
               </h2>
               <p className="cta-desc">
-                Your next big idea deserves the right technology partner. Let's build something extraordinary together.
+                Your ambitious vision deserves engineering depth and modern architectural execution. Let's build something extraordinary together.
               </p>
               <div className="cta-buttons">
                 <a href="#contact" className="btn-gold">
@@ -216,17 +302,17 @@ export default function App() {
           </div>
         </section>
 
+        {/* Inquiry Transmission Form */}
         <Contact onShowSuccess={handleShowSuccess} />
       </main>
 
-      {/* 4. Footer */}
-      <Footer onOpenAdmin={handleOpenAdmin} />
+      {/* 4. Footer with Executive Gateway */}
+      <Footer onOpenAdmin={handleOpenAdminPortal} />
 
       {/* ============================================================
-          5. MODAL SYSTEM (Services, Projects, Success, Admin)
+          5. MODAL SYSTEM (Service, Project, Success, Admin Quick View)
          ============================================================ */}
 
-      {/* Modal Backdrop */}
       {activeModal && (
         <div
           className="modal-backdrop-custom"
@@ -234,9 +320,9 @@ export default function App() {
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(3, 31, 25, 0.88)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
+            background: 'rgba(0, 15, 15, 0.88)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
             zIndex: 3000,
             display: 'flex',
             alignItems: 'center',
@@ -251,46 +337,43 @@ export default function App() {
               className="modal-inner-container"
               onClick={(e) => e.stopPropagation()}
               style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--accent-gold)',
-                borderRadius: 'var(--radius-xl)',
+                background: '#032221',
+                border: '1px solid #F9BE4A',
+                borderRadius: '16px',
                 padding: '2.8rem',
                 maxWidth: '820px',
                 width: '100%',
                 maxHeight: '85vh',
                 overflowY: 'auto',
                 position: 'relative',
-                boxShadow: '0 25px 80px rgba(0, 0, 0, 0.7), 0 8px 32px rgba(249, 190, 74, 0.22)'
+                boxShadow: '0 25px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 223, 129, 0.15)'
               }}
             >
               <button type="button" className="dialog-close-btn" onClick={closeModal} aria-label="Close modal">✕</button>
               <div className="modal-header-block">
                 <span className="section-label" style={{ marginBottom: '0.6rem' }}>{activeModal.data.badge}</span>
-                <h2 style={{ color: 'var(--text-primary)', marginBottom: '0.4rem' }}>{activeModal.data.title}</h2>
-                <p className="modal-tagline">{activeModal.data.tagline}</p>
+                <h2 style={{ color: '#F1F7F6', marginBottom: '0.4rem' }}>{activeModal.data.title}</h2>
+                <p className="modal-tagline" style={{ color: '#F9BE4A', fontWeight: 600 }}>{activeModal.data.tagline}</p>
               </div>
 
-              <p style={{ fontSize: '1.05rem', lineHeight: 1.75, marginBottom: '1.8rem', color: 'var(--text-secondary)' }}>
+              <p style={{ fontSize: '1.05rem', lineHeight: 1.75, marginBottom: '1.8rem', color: '#A8CDC4' }}>
                 {activeModal.data.description}
               </p>
 
-              <h4 style={{ color: 'var(--light-gold)', textTransform: 'uppercase', fontSize: '0.92rem', marginBottom: '1rem', letterSpacing: '0.08em' }}>
+              <h4 style={{ color: '#FFD477', textTransform: 'uppercase', fontSize: '0.92rem', marginBottom: '1rem', letterSpacing: '0.08em' }}>
                 Core Capabilities
               </h4>
-              <div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginBottom: '1.8rem' }}>
                 {activeModal.data.capabilities.map((c, i) => (
-                  <div key={i} className="modal-capability-item">
-                    <div className="modal-cap-icon">✦</div>
-                    <div>
-                      <h4 style={{ color: '#FFFFFF', marginBottom: '0.3rem' }}>{c.title}</h4>
-                      <p style={{ margin: 0, fontSize: '0.92rem' }}>{c.desc}</p>
-                    </div>
+                  <div key={i} className="modal-capability-item" style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
+                    <span style={{ color: '#00DF81' }}>✦</span>
+                    <span style={{ color: '#F1F7F6', fontSize: '0.95rem' }}>{typeof c === 'string' ? c : c.title}</span>
                   </div>
                 ))}
               </div>
 
-              <div style={{ margin: '2rem 0' }}>
-                <h4 style={{ color: 'var(--light-gold)', textTransform: 'uppercase', fontSize: '0.92rem', marginBottom: '0.8rem', letterSpacing: '0.08em' }}>
+              <div style={{ margin: '1.8rem 0' }}>
+                <h4 style={{ color: '#FFD477', textTransform: 'uppercase', fontSize: '0.92rem', marginBottom: '0.8rem', letterSpacing: '0.08em' }}>
                   Technologies Leveraged
                 </h4>
                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -301,13 +384,13 @@ export default function App() {
               </div>
 
               <div style={{ marginBottom: '2.5rem' }}>
-                <h4 style={{ color: 'var(--light-gold)', textTransform: 'uppercase', fontSize: '0.92rem', marginBottom: '0.8rem', letterSpacing: '0.08em' }}>
+                <h4 style={{ color: '#FFD477', textTransform: 'uppercase', fontSize: '0.92rem', marginBottom: '0.8rem', letterSpacing: '0.08em' }}>
                   Deliverables Included
                 </h4>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', padding: 0 }}>
                   {activeModal.data.deliverables.map((d, i) => (
-                    <li key={i} style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center' }}>
-                      <span className="gold-check">✓</span> {d}
+                    <li key={i} style={{ color: '#A8CDC4', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                      <span style={{ color: '#00DF81', fontWeight: 800 }}>✓</span> {d}
                     </li>
                   ))}
                 </ul>
@@ -322,22 +405,14 @@ export default function App() {
                   const contactSection = document.getElementById('contact');
                   if (contactSection) {
                     contactSection.scrollIntoView({ behavior: 'smooth' });
-                    const selectEl = document.getElementById('service-select-r') || document.getElementById('service-select');
+                    const selectEl = document.getElementById('contact-service');
                     if (selectEl) {
-                      const serviceMap = {
-                        'ai-ml': 'AI & Machine Learning',
-                        'web-dev': 'Web Development',
-                        'mobile-dev': 'Mobile App Development',
-                        'ui-ux': 'UI/UX Design',
-                        'cloud': 'Cloud Solutions',
-                        'digital-marketing': 'Digital Marketing'
-                      };
-                      selectEl.value = serviceMap[activeModal.key] || 'Other';
+                      selectEl.value = activeModal.data.title;
                     }
                   }
                 }}
               >
-                <span>Discuss This Service With Us</span>
+                <span>Initiate Consultation For This Service</span>
                 <span>→</span>
               </button>
             </div>
@@ -349,73 +424,56 @@ export default function App() {
               className="modal-inner-container"
               onClick={(e) => e.stopPropagation()}
               style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--accent-gold)',
-                borderRadius: 'var(--radius-xl)',
+                background: '#032221',
+                border: '1px solid #F9BE4A',
+                borderRadius: '16px',
                 padding: '2.8rem',
                 maxWidth: '820px',
                 width: '100%',
                 maxHeight: '85vh',
                 overflowY: 'auto',
                 position: 'relative',
-                boxShadow: '0 25px 80px rgba(0, 0, 0, 0.7), 0 8px 32px rgba(249, 190, 74, 0.22)'
+                boxShadow: '0 25px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 223, 129, 0.15)'
               }}
             >
               <button type="button" className="dialog-close-btn" onClick={closeModal} aria-label="Close modal">✕</button>
               <div className="modal-header-block">
                 <div style={{ display: 'flex', gap: '0.6rem', marginBottom: '0.8rem', alignItems: 'center' }}>
-                  <span className="section-label" style={{ marginBottom: 0 }}>{activeModal.data.badge}</span>
+                  <span className="section-label" style={{ marginBottom: 0 }}>Project 0{activeModal.data.order}</span>
                   <span className="tech-pill">{activeModal.data.category}</span>
                 </div>
-                <h2 style={{ color: 'var(--text-primary)', marginBottom: '0.4rem' }}>{activeModal.data.title}</h2>
-                <p className="modal-tagline">{activeModal.data.tagline}</p>
+                <h2 style={{ color: '#F1F7F6', marginBottom: '0.4rem' }}>{activeModal.data.title}</h2>
+                <p className="modal-tagline" style={{ color: '#F9BE4A', fontWeight: 600 }}>{activeModal.data.tagline}</p>
               </div>
 
-              <div className="prototype-notice-box">
-                <span style={{ fontSize: '1.2rem', marginRight: '0.5rem' }}>ℹ</span>
+              <div className="prototype-notice-box" style={{
+                backgroundColor: 'rgba(3, 98, 76, 0.35)',
+                border: '1px solid rgba(44, 194, 149, 0.35)',
+                borderRadius: '8px',
+                padding: '0.9rem 1.2rem',
+                margin: '1.2rem 0 1.6rem 0',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.6rem',
+                color: '#A8CDC4',
+                fontSize: '0.86rem'
+              }}>
+                <span style={{ fontSize: '1.2rem', color: '#00DF81' }}>ℹ</span>
                 <span>
-                  <strong>Engineering Showcase:</strong> This project represents a proprietary architecture and research prototype created by the NexFero Innovations team to demonstrate real-world system capability.
+                  <strong>Engineering Implementation:</strong> Built by the NexFero Innovations engineering team with genuine modular code and deployment benchmarks.
                 </span>
               </div>
 
-              <p style={{ fontSize: '1.05rem', lineHeight: 1.75, marginBottom: '1.8rem', color: 'var(--text-secondary)' }}>
-                {activeModal.data.fullDescription || activeModal.data.description}
+              <p style={{ fontSize: '1.05rem', lineHeight: 1.75, marginBottom: '1.8rem', color: '#A8CDC4' }}>
+                {activeModal.data.fullDescription || activeModal.data.shortDescription}
               </p>
 
-              <div className="modal-metrics-grid">
-                {activeModal.data.metrics && activeModal.data.metrics.map((m, i) => (
-                  <div key={i} className="modal-metric-card">
-                    <span style={{ display: 'block', fontSize: '1.4rem', fontWeight: 800, color: 'var(--accent-gold)', marginBottom: '0.2rem' }}>
-                      {m.value}
-                    </span>
-                    <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                      {m.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              {activeModal.data.features && (
-                <div style={{ margin: '1.8rem 0' }}>
-                  <h4 style={{ color: 'var(--light-gold)', textTransform: 'uppercase', fontSize: '0.92rem', marginBottom: '0.8rem', letterSpacing: '0.08em' }}>
-                    Architectural Features
-                  </h4>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', padding: 0 }}>
-                    {activeModal.data.features.map((f, i) => (
-                      <li key={i} style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center' }}>
-                        <span className="gold-check">✦</span> {f}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              <div style={{ marginBottom: '2.5rem' }}>
-                <h4 style={{ color: 'var(--light-gold)', textTransform: 'uppercase', fontSize: '0.92rem', marginBottom: '0.8rem', letterSpacing: '0.08em' }}>
+              <div style={{ marginBottom: '2.2rem' }}>
+                <h4 style={{ color: '#FFD477', textTransform: 'uppercase', fontSize: '0.92rem', marginBottom: '0.8rem', letterSpacing: '0.08em' }}>
                   Technologies Applied
                 </h4>
                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                  {activeModal.data.tags.map((t, i) => (
+                  {activeModal.data.technologies.map((t, i) => (
                     <span key={i} className="tech-pill">{t}</span>
                   ))}
                 </div>
@@ -430,9 +488,9 @@ export default function App() {
                   const contactSection = document.getElementById('contact');
                   if (contactSection) {
                     contactSection.scrollIntoView({ behavior: 'smooth' });
-                    const msgEl = document.getElementById('contact-message-r') || document.getElementById('contact-message');
+                    const msgEl = document.getElementById('contact-message');
                     if (msgEl) {
-                      msgEl.value = `Hello NexFero team, I am interested in discussing your work on ${activeModal.data.title} (${activeModal.data.category}) for our upcoming project.`;
+                      msgEl.value = `Hello NexFero team, I am interested in discussing your architecture for "${activeModal.data.title}" (${activeModal.data.category}) for an upcoming project.`;
                     }
                   }
                 }}
@@ -449,32 +507,55 @@ export default function App() {
               className="modal-inner-container"
               onClick={(e) => e.stopPropagation()}
               style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--accent-gold)',
-                borderRadius: 'var(--radius-xl)',
+                background: '#032221',
+                border: '1px solid #00DF81',
+                borderRadius: '16px',
                 padding: '3rem',
                 maxWidth: '600px',
                 width: '100%',
                 textAlign: 'center',
-                boxShadow: '0 25px 80px rgba(0, 0, 0, 0.7), 0 8px 32px rgba(249, 190, 74, 0.22)'
+                boxShadow: '0 25px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(0, 223, 129, 0.25)'
               }}
             >
               <button type="button" className="dialog-close-btn" onClick={closeModal} aria-label="Close modal">✕</button>
-              <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: 'rgba(16, 70, 56, 0.9)', border: '2px solid var(--accent-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem auto', fontSize: '2rem', color: 'var(--light-gold)' }}>
+              <div style={{
+                width: '72px',
+                height: '72px',
+                borderRadius: '50%',
+                background: 'rgba(0, 223, 129, 0.15)',
+                border: '2px solid #00DF81',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1.5rem auto',
+                fontSize: '2rem',
+                color: '#00DF81'
+              }}>
                 ✓
               </div>
-              <h2 style={{ color: 'var(--text-primary)', marginBottom: '0.8rem' }}>Inquiry Transmitted!</h2>
-              <div style={{ padding: '0.5rem 1.4rem', background: 'rgba(6, 59, 48, 0.9)', border: '1.5px dashed var(--accent-gold)', borderRadius: 'var(--radius-md)', fontFamily: 'JetBrains Mono, monospace', fontSize: '1.25rem', fontWeight: 700, color: 'var(--light-gold)', marginBottom: '1.5rem', display: 'inline-block' }}>
+              <h2 style={{ color: '#F1F7F6', marginBottom: '0.8rem' }}>Inquiry Transmitted!</h2>
+              <div style={{
+                padding: '0.5rem 1.4rem',
+                background: '#000F0F',
+                border: '1.5px dashed #F9BE4A',
+                borderRadius: '8px',
+                fontFamily: 'monospace',
+                fontSize: '1.25rem',
+                fontWeight: 700,
+                color: '#FFD477',
+                marginBottom: '1.5rem',
+                display: 'inline-block'
+              }}>
                 REF: {activeModal.submission.trackingId}
               </div>
-              <p style={{ fontSize: '1.05rem', lineHeight: 1.7, color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-                Thank you, <strong style={{ color: '#FFFFFF' }}>{activeModal.submission.name}</strong>. Your inquiry for <strong style={{ color: 'var(--light-gold)' }}>{activeModal.submission.service}</strong> has been secured. Our engineering leadership in Chennai will contact you at <strong style={{ color: '#FFFFFF' }}>{activeModal.submission.email}</strong> within 24 business hours.
+              <p style={{ fontSize: '1.05rem', lineHeight: 1.7, color: '#A8CDC4', marginBottom: '1.5rem' }}>
+                Thank you, <strong style={{ color: '#FFFFFF' }}>{activeModal.submission.name}</strong>. Your project inquiry for <strong style={{ color: '#F9BE4A' }}>{activeModal.submission.service}</strong> has been received by our engineering headquarters in Chennai. We will contact you at <strong style={{ color: '#FFFFFF' }}>{activeModal.submission.email}</strong> within 24 business hours.
               </p>
-              <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: '2rem' }}>
+              <div style={{ fontSize: '0.88rem', color: '#707D7D', marginBottom: '2rem' }}>
                 {activeModal.backendOk ? (
-                  <span className="badge-success-live">● Live Database Synchronized</span>
+                  <span style={{ color: '#00DF81', fontWeight: 600 }}>● Live Node.js Storage Synchronized</span>
                 ) : (
-                  <span className="badge-success-local">● Inquiries Engine Active</span>
+                  <span style={{ color: '#FFD477', fontWeight: 600 }}>● Secured via Client Storage Engine</span>
                 )}
               </div>
               <button type="button" className="btn-gold" style={{ minWidth: '200px' }} onClick={closeModal}>
@@ -483,84 +564,82 @@ export default function App() {
             </div>
           )}
 
-          {/* D. Founder Inquiries Portal Modal */}
+          {/* D. Quick Founder / Admin Inquiries Modal */}
           {activeModal.type === 'admin' && (
             <div
               className="modal-inner-container"
               onClick={(e) => e.stopPropagation()}
               style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--accent-gold)',
-                borderRadius: 'var(--radius-xl)',
+                background: '#032221',
+                border: '1px solid #F9BE4A',
+                borderRadius: '16px',
                 padding: '2.8rem',
                 maxWidth: '1050px',
                 width: '100%',
                 maxHeight: '85vh',
                 overflowY: 'auto',
                 position: 'relative',
-                boxShadow: '0 25px 80px rgba(0, 0, 0, 0.7), 0 8px 32px rgba(249, 190, 74, 0.22)'
+                boxShadow: '0 25px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(249, 190, 74, 0.2)'
               }}
             >
               <button type="button" className="dialog-close-btn" onClick={closeModal} aria-label="Close modal">✕</button>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
                 <div>
-                  <span className="section-label" style={{ marginBottom: '0.4rem' }}>Internal Management</span>
-                  <h2 style={{ fontSize: '1.8rem', margin: 0, color: '#FFFFFF' }}>Founder Inquiries Portal</h2>
+                  <span className="section-label" style={{ marginBottom: '0.4rem' }}>Executive Management</span>
+                  <h2 style={{ fontSize: '1.8rem', margin: 0, color: '#FFFFFF' }}>Inquiries & Leads Vault</h2>
                 </div>
                 <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
                   <span className="tech-pill">{inquiries.length} Inquiries</span>
-                  <button type="button" className="btn-outline-gold" style={{ padding: '0.4rem 0.9rem', fontSize: '0.82rem' }} onClick={exportCSV}>
+                  <button type="button" className="btn-outline-gold" style={{ padding: '0.45rem 0.9rem', fontSize: '0.82rem' }} onClick={exportCSV}>
                     Export CSV
                   </button>
-                  <button type="button" className="btn-outline-gold" style={{ padding: '0.4rem 0.9rem', fontSize: '0.82rem', borderColor: '#FF6B6B', color: '#FFA8A8' }} onClick={clearInquiries}>
-                    Clear
+                  <button
+                    type="button"
+                    className="btn-gold"
+                    style={{ padding: '0.45rem 1rem', fontSize: '0.82rem' }}
+                    onClick={() => {
+                      closeModal();
+                      handleOpenAdminPortal();
+                    }}
+                  >
+                    Open Full Admin Suite →
                   </button>
                 </div>
               </div>
 
-              <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', marginBottom: '1.2rem' }}>
-                Displays inquiries captured in the backend database and local browser storage. Press <kbd style={{ background: 'rgba(6, 59, 48, 0.9)', padding: '2px 6px', borderRadius: '4px', border: '1px solid var(--gold-border)' }}>Ctrl+Shift+I</kbd> anytime to access this panel.
-              </p>
-
-              <div className="admin-table-wrapper">
-                <table className="admin-table">
+              <div className="admin-table-wrapper" style={{ overflowX: 'auto' }}>
+                <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.86rem' }}>
                   <thead>
-                    <tr>
-                      <th>Tracking ID</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Service</th>
-                      <th>Budget</th>
-                      <th>Message</th>
+                    <tr style={{ backgroundColor: '#063028', color: '#A8CDC4' }}>
+                      <th style={{ padding: '0.8rem 1rem' }}>Tracking ID</th>
+                      <th style={{ padding: '0.8rem 1rem' }}>Client Name</th>
+                      <th style={{ padding: '0.8rem 1rem' }}>Email</th>
+                      <th style={{ padding: '0.8rem 1rem' }}>Service</th>
+                      <th style={{ padding: '0.8rem 1rem' }}>Budget</th>
+                      <th style={{ padding: '0.8rem 1rem' }}>Message</th>
                     </tr>
                   </thead>
                   <tbody>
                     {inquiries.length === 0 ? (
                       <tr>
-                        <td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' }}>
-                          No inquiries received yet. Submit the contact form on the homepage to test!
+                        <td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: '#A8CDC4' }}>
+                          No inquiries recorded yet. Submit the contact form to generate live leads!
                         </td>
                       </tr>
                     ) : (
                       inquiries.map((item, idx) => (
-                        <tr key={idx}>
-                          <td>
-                            <strong style={{ color: 'var(--accent-gold)', fontFamily: 'JetBrains Mono, monospace' }}>
-                              {item.trackingId || item.id || `NXF-${1000 + idx}`}
-                            </strong>
+                        <tr key={idx} style={{ borderBottom: '1px solid rgba(44, 194, 149, 0.15)' }}>
+                          <td style={{ padding: '0.8rem 1rem', color: '#F9BE4A', fontFamily: 'monospace', fontWeight: 700 }}>
+                            {item.trackingId || `NXF-${1000 + idx}`}
                           </td>
-                          <td>{item.name || 'Anonymous'}</td>
-                          <td>
-                            <a href={`mailto:${item.email}`} style={{ color: 'var(--light-gold)' }}>
-                              {item.email}
-                            </a>
+                          <td style={{ padding: '0.8rem 1rem', color: '#F1F7F6', fontWeight: 600 }}>{item.name}</td>
+                          <td style={{ padding: '0.8rem 1rem' }}>
+                            <a href={`mailto:${item.email}`} style={{ color: '#00DF81' }}>{item.email}</a>
                           </td>
-                          <td><span className="tech-pill">{item.service || 'General'}</span></td>
-                          <td><span style={{ color: 'var(--light-gold)', fontSize: '0.85rem' }}>{item.budget || 'Flexible'}</span></td>
-                          <td style={{ maxWidth: '280px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                            {item.message || ''}
-                          </td>
+                          <td style={{ padding: '0.8rem 1rem' }}><span className="tech-pill">{item.service || 'General'}</span></td>
+                          <td style={{ padding: '0.8rem 1rem', color: '#FFD477' }}>{item.budget || 'Flexible'}</td>
+                          <td style={{ padding: '0.8rem 1rem', maxWidth: '280px', color: '#A8CDC4' }}>{item.message}</td>
                         </tr>
                       ))
                     )}

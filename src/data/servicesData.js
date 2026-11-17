@@ -1,188 +1,154 @@
+/**
+ * NexFero Innovations - Official Services Data
+ * Covers the 7 core offerings from the master specification.
+ */
+
 export const SERVICES_DATA = {
-  'ai-ml': {
-    title: 'Artificial Intelligence & Machine Learning',
-    badge: 'Core Competency',
-    tagline: 'Engineering Intelligent, Context-Aware Systems That Accelerate Business Growth',
-    description: 'At NexFero Innovations, our AI & Machine Learning team builds high-accuracy, reliable machine intelligence architectures designed for enterprise deployment. Rather than treating AI as a novelty, we engineer practical models that directly automate manual workloads, extract actionable intelligence from unstructured data, and forecast trends with high statistical confidence.',
+  'website-design-dev': {
+    key: 'website-design-dev',
+    title: 'Website Design and Development',
+    badge: 'Core Specialty',
+    tagline: 'High-Impact, Fast, Responsive Websites Built with Cutting-Edge Standards',
+    description: 'We design and engineer bespoke web experiences that merge contemporary aesthetics with lightning-fast performance, accessibility, and high conversion structures.',
     capabilities: [
-      {
-        title: 'AI-Powered Applications',
-        desc: 'Developing conversational interfaces, contextual copilot systems, and automated task assistants tailored to your industry workflows.'
-      },
-      {
-        title: 'Machine Learning Solutions',
-        desc: 'End-to-end ML pipelines including automated data preprocessing, feature engineering, model training, and continuous drift monitoring.'
-      },
-      {
-        title: 'Intelligent Automation',
-        desc: 'Automating multi-step knowledge work, document parsing, visual inspection, and high-frequency business logic with AI verification.'
-      },
-      {
-        title: 'Predictive Analytics',
-        desc: 'Time-series forecasting, customer lifetime value modeling, churn risk prediction, and demand elasticity simulation.'
-      }
+      'Custom Responsive Web Design',
+      'Interactive Micro-Animations & 3D Elements',
+      'Search Engine Optimization (SEO) & Performance Tuning',
+      'Cross-Browser & Multi-Device Optimization'
     ],
-    technologies: ['Python', 'Scikit-learn', 'PyTorch', 'FastAPI', 'Pandas', 'NumPy', 'Docker'],
+    technologies: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Figma', 'SEO'],
     deliverables: [
-      'Custom-trained or fine-tuned ML models with API endpoints',
-      'Interactive analytics dashboard for real-time model telemetry',
-      'Deterministic validation test suites and accuracy metrics',
-      'Comprehensive documentation and deployment playbooks'
-    ]
+      'Production-ready, minified and optimized web code',
+      'Mobile-first responsive layouts across all viewports',
+      'Structured Schema.org markup & meta tags'
+    ],
+    visualType: 'web-design',
+    order: 1
   },
-  'web-dev': {
-    title: 'Web Development',
-    badge: 'High Performance',
-    tagline: 'Fast, Accessible, Scalable Web Applications Built for Modern Demands',
-    description: 'We craft high-performance web applications that combine aesthetic elegance with technical precision. Using modern JavaScript/React, semantic HTML5, and clean CSS, our web solutions achieve lightning-fast loading speeds, frictionless user experiences, and rock-solid architectural foundations ready to scale to millions of requests.',
+  'full-stack-dev': {
+    key: 'full-stack-dev',
+    title: 'Full Stack Development',
+    badge: 'Enterprise Architecture',
+    tagline: 'Seamlessly Integrated Frontends, Resilient APIs, and Scalable Databases',
+    description: 'End-to-end full stack software engineering. We develop scalable client-facing interfaces tightly coupled with robust server-side business logic and high-throughput data layers.',
     capabilities: [
-      {
-        title: 'Business Websites',
-        desc: 'Conversion-engineered startup websites and corporate portals with strong visual identity, SEO readiness, and responsive brilliance.'
-      },
-      {
-        title: 'Custom Web Applications',
-        desc: 'Complex single-page applications (SPAs), SaaS dashboards, internal tooling, and client portals built with modern component architectures.'
-      },
-      {
-        title: 'Full-Stack Development',
-        desc: 'Seamless integration of frontend interfaces with robust backend APIs, relational and NoSQL databases, and third-party services.'
-      },
-      {
-        title: 'Responsive Interfaces',
-        desc: 'Flawless visual rendering and touch interactivity across smartphones, tablets, laptops, and ultra-wide desktop monitors.'
-      }
+      'Modern Single Page Applications (SPAs)',
+      'RESTful & GraphQL API Engineering',
+      'Authentication, Authorization & Role-Based Access',
+      'Database Modeling & Transaction Management'
     ],
-    technologies: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Node.js', 'Flask', 'MySQL', 'MongoDB'],
+    technologies: ['React', 'Node.js', 'Express', 'Java', 'Spring Boot', 'Python', 'MySQL'],
     deliverables: [
-      'Production-ready, minified, optimized web application source code',
-      'Lighthouse 95+ score compliance across Performance, SEO, and Accessibility',
-      'Secure RESTful API integration and automated error logging',
-      'Cross-browser and multi-device automated testing report'
-    ]
+      'Complete full-stack repository with API contracts',
+      'Relational or document schema migrations',
+      'Secure token-based auth workflows'
+    ],
+    visualType: 'full-stack',
+    order: 2
   },
-  'mobile-dev': {
-    title: 'Mobile Application Development',
-    badge: 'Native & Cross-Platform',
-    tagline: 'Delivering Intuitive Mobile Experiences into the Palms of Your Users',
-    description: 'NexFero develops high-performance mobile applications that provide buttery-smooth 60fps animations, intuitive navigation flows, and deep native hardware integrations. Whether you need an Android app, an iOS release, or an agile cross-platform solution, we build apps users love to engage with daily.',
+  'software-app-dev': {
+    key: 'software-app-dev',
+    title: 'Software Application Development',
+    badge: 'Custom Engineering',
+    tagline: 'Tailored Software Solutions Built for Reliability and High Concurrency',
+    description: 'We develop custom software architectures that address complex operational requirements, automating internal workflows and eliminating business bottlenecks.',
     capabilities: [
-      {
-        title: 'Android Applications',
-        desc: 'Engineered specifically for the Android ecosystem following Material You guidelines, hardware sensor APIs, and Google Play policies.'
-      },
-      {
-        title: 'iOS Application Development',
-        desc: 'Pixel-perfect interfaces adhering to Apple Human Interface Guidelines with smooth tactile interactions and secure Keychain auth.'
-      },
-      {
-        title: 'Cross-Platform Solutions',
-        desc: 'Unified codebases leveraging cutting-edge hybrid technologies that cut time-to-market in half while maintaining near-native performance.'
-      },
-      {
-        title: 'Offline-First Architectures',
-        desc: 'Resilient local database synchronization ensuring users can browse, draft, and work even during intermittent connectivity.'
-      }
+      'Custom Enterprise Software Systems',
+      'Multi-Tier Client-Server Architecture',
+      'Automated Data Processing Pipelines',
+      'Legacy System Modernization & Upgrades'
     ],
-    technologies: ['React Native', 'Kotlin', 'Swift', 'Node.js', 'Firebase', 'SQLite'],
+    technologies: ['Java', 'Spring Boot', 'Python', 'Flask', 'C#', 'SQL'],
     deliverables: [
-      'Compiled binaries ready for Google Play Store and Apple App Store deployment',
-      'Secure push notification backend integration',
-      'Local encrypted SQLite / Realm database schema',
-      'Performance profiling and memory leak audit log'
-    ]
+      'Modular, extensible source code with documentation',
+      'Unit and integration test suites',
+      'Operational runbooks and deployment guides'
+    ],
+    visualType: 'software-app',
+    order: 3
   },
-  'ui-ux': {
-    title: 'UI/UX Design',
-    badge: 'Human-Centered',
-    tagline: 'Bridging Technological Complexity with Intuitive, Inspiring Aesthetics',
-    description: 'Great technology falls flat without an intuitive interface. NexFero’s design methodology unites cognitive ergonomics, brand storytelling, and modern design systems. We transform complex workflows into simple, elegant digital journeys that inspire trust and drive conversions.',
+  'ai-ml-solutions': {
+    key: 'ai-ml-solutions',
+    title: 'AI and Machine Learning Solutions',
+    badge: 'Intelligent Systems',
+    tagline: 'Transforming Data into Predictive Intelligence and Cognitive Automation',
+    description: 'We architect and deploy practical machine learning models and generative AI systems that deliver measurable business advantages, from predictive analytics to intelligent automation.',
     capabilities: [
-      {
-        title: 'User Interface Design',
-        desc: 'Futuristic yet clean visual interfaces, bespoke design tokens, harmonious emerald-and-gold palettes, and balanced typography.'
-      },
-      {
-        title: 'User Experience Research',
-        desc: 'User journey mapping, information architecture wireframing, cognitive load reduction, and usability friction identification.'
-      },
-      {
-        title: 'Interactive Prototyping',
-        desc: 'Clickable high-fidelity micro-interactions and transitions to validate user flows before writing a single line of production code.'
-      },
-      {
-        title: 'Figma-Based Design Systems',
-        desc: 'Scalable, tokenized UI component libraries with auto-layout, dark/light variants, and comprehensive developer handoff specs.'
-      }
+      'Supervised & Unsupervised Machine Learning Models',
+      'Generative AI & LLM Workflow Integration',
+      'Time-Series Forecasting & Anomaly Detection',
+      'Interactive Data Dashboards & Visualizations'
     ],
-    technologies: ['Figma', 'Design Tokens', 'CSS Variables', 'Micro-Interactions', 'WCAG AA Audit'],
+    technologies: ['Python', 'Machine Learning', 'Random Forest', 'Streamlit', 'Scikit-learn', 'Generative AI'],
     deliverables: [
-      'Complete Figma design workspace with atomic component library',
-      'High-fidelity interactive prototype for stakeholder alignment',
-      'Design tokens export (CSS custom properties, JSON format)',
-      'Accessibility audit certifying WCAG 2.1 AA color contrast compliance'
-    ]
+      'Trained and evaluated ML pipeline scripts',
+      'Interactive Streamlit / React analytical interfaces',
+      'Model validation telemetry and accuracy benchmarks'
+    ],
+    visualType: 'ai-brain',
+    order: 4
   },
-  'cloud': {
-    title: 'Cloud Solutions',
-    badge: 'Resilient Infrastructure',
-    tagline: 'Scalable, Cost-Optimized Cloud Architectures Designed for Zero Downtime',
-    description: 'Modern enterprises cannot afford fragile servers. NexFero designs, migrates, and manages resilient cloud ecosystems. By leveraging microservices, automated infrastructure-as-code, and serverless compute, we ensure your digital products handle massive traffic surges effortlessly.',
+  'database-management': {
+    key: 'database-management',
+    title: 'Database Management',
+    badge: 'Data Integrity',
+    tagline: 'Optimized Data Storage, ACID Transactions, and High-Throughput Queries',
+    description: 'Designing resilient database architectures that maintain strict consistency, prevent concurrency conflicts, and execute sub-millisecond queries under peak loads.',
     capabilities: [
-      {
-        title: 'Cloud Deployment',
-        desc: 'Automated CI/CD pipelines deploying containerized workloads to AWS, Azure, Netlify, and Vercel with zero-downtime rollouts.'
-      },
-      {
-        title: 'Cloud Infrastructure',
-        desc: 'Virtual Private Clouds (VPC), automated load balancing, DDoS mitigation, multi-zone database clusters, and secure secret vaults.'
-      },
-      {
-        title: 'Application Hosting',
-        desc: 'High-availability container orchestration, edge computing distributions, SSL/TLS automation, and CDN asset caching.'
-      },
-      {
-        title: 'Scalable Architecture',
-        desc: 'Decoupled event-driven message brokers, caching tiers with Redis, and horizontally auto-scaling application tiers.'
-      }
+      'Relational Schema Design (MySQL, PostgreSQL, SQLite)',
+      'NoSQL Document Databases (MongoDB)',
+      'Transaction Integrity & Concurrency Control',
+      'Query Optimization, Indexing & Backup Automation'
     ],
-    technologies: ['AWS', 'Microsoft Azure', 'Docker', 'NGINX', 'GitHub Actions', 'Linux'],
+    technologies: ['MySQL', 'MongoDB', 'SQLite', 'PostgreSQL', 'SQL Optimization'],
     deliverables: [
-      'Infrastructure-as-Code scripts and Dockerfiles',
-      'Automated CI/CD GitHub Actions workflows with test and deploy gates',
-      'Cloud security hardening report and role-based IAM policies',
-      'Real-time uptime monitoring and alerting dashboard setup'
-    ]
+      'Normalized schema definitions and migration scripts',
+      'Optimized indexing and performance profiling reports',
+      'Automated backup and disaster recovery plans'
+    ],
+    visualType: 'database-disk',
+    order: 5
   },
-  'digital-marketing': {
-    title: 'Digital Marketing & Growth',
-    badge: 'Data-Driven Reach',
-    tagline: 'Amplifying Your Brand Visibility and Converting Engaged Visitors into Partners',
-    description: 'Building exceptional digital solutions is only half the journey; the world needs to discover them. NexFero provides data-driven digital branding, technical search engine optimization, and strategic content roadmaps that position your technology startup as an industry authority.',
+  'automation-smart-tech': {
+    key: 'automation-smart-tech',
+    title: 'Automation and Smart Technology Solutions',
+    badge: 'Emerging Tech',
+    tagline: 'Bridging Hardware, Sensors, Embedded Systems, and Smart Automations',
+    description: 'From assistive IoT devices with sensor arrays to computer vision navigation systems, we develop smart connected technologies that solve tactile, real-world problems.',
     capabilities: [
-      {
-        title: 'Digital Branding',
-        desc: 'Crafting cohesive brand identities, authoritative tone-of-voice guidelines, and futuristic digital asset kits that resonate with tech clients.'
-      },
-      {
-        title: 'Social Media Presence',
-        desc: 'Curated technical thought-leadership content, visual carousels, and community engagement strategies across LinkedIn, X, and Instagram.'
-      },
-      {
-        title: 'Search Engine Optimization (SEO)',
-        desc: 'Technical SEO audits, semantic Schema.org markup, Core Web Vitals optimization, keyword architecture, and search visibility prep.'
-      },
-      {
-        title: 'Online Growth Strategies',
-        desc: 'Data analytics instrumentation, conversion funnel tracking, A/B testing frameworks, and inbound lead magnet architecture.'
-      }
+      'Smart Sensor & Camera Integration',
+      'Embedded Hardware Layout Architecture',
+      'Real-Time Audio / Voice Telemetry Feedback',
+      'Automated Hardware-Software Communication Protocols'
     ],
-    technologies: ['Google Search Console', 'Schema.org', 'Core Web Vitals', 'Open Graph', 'Analytics'],
+    technologies: ['Embedded Hardware', 'Sensors', 'Camera Systems', 'IoT', 'Python', 'C#'],
     deliverables: [
-      'Comprehensive technical SEO architecture report',
-      'Brand asset guideline book with social media templates',
-      'Structured Schema.org JSON-LD integration across all pages',
-      'Competitor search visibility and keyword positioning audit'
-    ]
+      'Hardware communication driver architectures',
+      'Sensor telemetry processing firmware scripts',
+      'Prototype simulation testing benchmarks'
+    ],
+    visualType: 'smart-tech',
+    order: 6
+  },
+  'custom-digital-projects': {
+    key: 'custom-digital-projects',
+    title: 'Custom Digital Projects',
+    badge: 'Innovation Lab',
+    tagline: 'Experimental Prototypes, XR/VR Experiences, and Specialized Software',
+    description: 'Have a non-standard product idea? Our innovation team brings unique technical concepts to life, including VR simulations, specialized portals, and bespoke web experiments.',
+    capabilities: [
+      'Virtual Reality (VR) & Augmented Reality (XR) Platforms',
+      'Interactive 3D Simulations in Unity',
+      'Custom Niche Web Applications & Portals',
+      'Rapid Technical Proof-of-Concept Prototyping'
+    ],
+    technologies: ['Unity', 'C#', 'VR', 'XR', 'WebGL', 'Modern Web APIs'],
+    deliverables: [
+      'Interactive 3D / XR simulation builds',
+      'Complete proof-of-concept prototype source code',
+      'Technical architecture evaluation documentation'
+    ],
+    visualType: 'custom-crystal',
+    order: 7
   }
 };

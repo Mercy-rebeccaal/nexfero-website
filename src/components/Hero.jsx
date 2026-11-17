@@ -1,7 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function Hero({ onOpenTalk }) {
   const canvasRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowH = window.innerHeight || 800;
+      const progress = Math.min(1.8, scrollY / (windowH * 0.9));
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -15,13 +28,12 @@ export default function Hero({ onOpenTalk }) {
     let centerX = width / 2;
     let centerY = height / 2;
 
-    const nodeCount = 64;
-    const radius = 175;
+    const nodeCount = 72;
+    const baseRadius = 160;
     const fov = 380;
-    const maxLineDist = 85;
-    let rotX = 0.2;
-    let rotY = 0.4;
-    let rotZ = 0.1;
+    const maxLineDist = 90;
+    let rotX = 0.25;
+    let rotY = 0.45;
     let pulseTimer = 0;
 
     let targetRotX = 0;
@@ -34,25 +46,26 @@ export default function Hero({ onOpenTalk }) {
       const theta = (2 * Math.PI * i) / goldenRatio;
       const phi = Math.acos(1 - (2 * (i + 0.5)) / nodeCount);
       nodes.push({
-        x0: Math.sin(phi) * Math.cos(theta) * radius,
-        y0: Math.sin(phi) * Math.sin(theta) * radius,
-        z0: Math.cos(phi) * radius,
+        x0: Math.sin(phi) * Math.cos(theta),
+        y0: Math.sin(phi) * Math.sin(theta),
+        z0: Math.cos(phi),
         x: 0,
         y: 0,
         z: 0,
         projX: 0,
         projY: 0,
         scale: 1,
-        size: 2.2 + Math.random() * 2.2,
+        size: 2.2 + Math.random() * 2.4,
         pulsePhase: Math.random() * Math.PI * 2,
-        isCore: i % 5 === 0
+        isCore: i % 4 === 0,
+        isGold: i % 3 === 0
       });
     }
 
     const badges = [
-      { text: 'AI Neural Engine', angle: 0, orbitR: radius * 1.35, tilt: 0.25, color: '#FFD477', icon: '✦' },
-      { text: 'Zero-Latency Core', angle: (2 * Math.PI) / 3, orbitR: radius * 1.4, tilt: -0.3, color: '#F9BE4A', icon: '⚡' },
-      { text: 'Cloud Scale Arch', angle: (4 * Math.PI) / 3, orbitR: radius * 1.3, tilt: 0.4, color: '#FFD477', icon: '☁' }
+      { text: 'AI Neural Systems', angle: 0, orbitR: 1.45, tilt: 0.25, color: '#00DF81', icon: '✦' },
+      { text: 'Full-Stack Architecture', angle: (2 * Math.PI) / 3, orbitR: 1.5, tilt: -0.3, color: '#F9BE4A', icon: '⚡' },
+      { text: 'Emerging Technologies', angle: (4 * Math.PI) / 3, orbitR: 1.4, tilt: 0.35, color: '#2CC295', icon: '☁' }
     ];
 
     const rotatePoint = (p, cosX, sinX, cosY, sinY) => {
@@ -69,8 +82,8 @@ export default function Hero({ onOpenTalk }) {
       const rect = canvas.getBoundingClientRect();
       const nx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
       const ny = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
-      targetRotY = nx * 0.6;
-      targetRotX = -ny * 0.6;
+      targetRotY = nx * 0.7;
+      targetRotX = -ny * 0.7;
     };
 
     const handleMouseLeave = () => {
@@ -78,13 +91,26 @@ export default function Hero({ onOpenTalk }) {
       targetRotY = 0;
     };
 
+    const handleResize = () => {
+      if (!canvas.parentElement) return;
+      width = canvas.width = canvas.parentElement.clientWidth || 550;
+      height = canvas.height = canvas.parentElement.clientHeight || 550;
+      centerX = width / 2;
+      centerY = height / 2;
+    };
+
+    window.addEventListener('resize', handleResize);
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseleave', handleMouseLeave);
 
     const render = () => {
-      rotX += (targetRotX - (rotX - 0.2)) * 0.05 + 0.0008;
-      rotY += (targetRotY - (rotY - 0.4)) * 0.05 + 0.003;
+      rotX += (targetRotX - (rotX - 0.2)) * 0.05 + 0.001;
+      rotY += (targetRotY - (rotY - 0.4)) * 0.05 + 0.0035;
       pulseTimer += 0.02;
+
+      // Dynamic cinematic scroll zoom multiplier
+      const currentScrollScale = 1 + scrollProgress * 0.45;
+      const currentRadius = baseRadius * currentScrollScale;
 
       const cosX = Math.cos(rotX);
       const sinX = Math.sin(rotX);
@@ -93,19 +119,33 @@ export default function Hero({ onOpenTalk }) {
 
       ctx.clearRect(0, 0, width, height);
 
-      // Glow backdrop
-      const grad = ctx.createRadialGradient(centerX, centerY, 30, centerX, centerY, radius * 1.5);
-      grad.addColorStop(0, 'rgba(249, 190, 74, 0.16)');
-      grad.addColorStop(0.45, 'rgba(16, 70, 56, 0.28)');
-      grad.addColorStop(1, 'rgba(6, 59, 48, 0)');
+      // Deep glowing emerald backdrop
+      const grad = ctx.createRadialGradient(centerX, centerY, 20 * currentScrollScale, centerX, centerY, currentRadius * 1.6);
+      grad.addColorStop(0, 'rgba(0, 223, 129, 0.22)');
+      grad.addColorStop(0.35, 'rgba(3, 98, 76, 0.35)');
+      grad.addColorStop(0.7, 'rgba(3, 34, 33, 0.2)');
+      grad.addColorStop(1, 'rgba(0, 15, 15, 0)');
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(centerX, centerY, radius * 1.5, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, currentRadius * 1.6, 0, Math.PI * 2);
       ctx.fill();
 
-      // Project nodes
+      // Outer Tesseract Ring
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.rotate(pulseTimer * 0.2);
+      ctx.strokeStyle = 'rgba(44, 194, 149, 0.22)';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([8, 12]);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, currentRadius * 1.35, currentRadius * 0.55, pulseTimer * 0.1, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      // Project nodes with scale
       nodes.forEach((n) => {
-        const rot = rotatePoint(n, cosX, sinX, cosY, sinY);
+        const rawPt = { x0: n.x0 * currentRadius, y0: n.y0 * currentRadius, z0: n.z0 * currentRadius };
+        const rot = rotatePoint(rawPt, cosX, sinX, cosY, sinY);
         n.x = rot.x;
         n.y = rot.y;
         n.z = rot.z;
@@ -115,6 +155,7 @@ export default function Hero({ onOpenTalk }) {
       });
 
       // Connections
+      const scaledDist = maxLineDist * currentScrollScale;
       for (let i = 0; i < nodeCount; i++) {
         const n1 = nodes[i];
         for (let j = i + 1; j < nodeCount; j++) {
@@ -123,15 +164,15 @@ export default function Hero({ onOpenTalk }) {
           const dy = n1.y - n2.y;
           const dz = n1.z - n2.z;
           const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-          if (dist < maxLineDist) {
+          if (dist < scaledDist) {
             const avgZ = (n1.z + n2.z) / 2;
-            const depthAlpha = Math.max(0.08, (avgZ + radius) / (2 * radius));
-            const alpha = (1 - dist / maxLineDist) * depthAlpha * 0.65;
+            const depthAlpha = Math.max(0.1, (avgZ + currentRadius) / (2 * currentRadius));
+            const alpha = (1 - dist / scaledDist) * depthAlpha * 0.75;
             ctx.beginPath();
             ctx.moveTo(n1.projX, n1.projY);
             ctx.lineTo(n2.projX, n2.projY);
-            ctx.strokeStyle = `rgba(249, 190, 74, ${alpha})`;
-            ctx.lineWidth = 0.9;
+            ctx.strokeStyle = n1.isGold || n2.isGold ? `rgba(249, 190, 74, ${alpha})` : `rgba(0, 223, 129, ${alpha})`;
+            ctx.lineWidth = 0.95;
             ctx.stroke();
           }
         }
@@ -139,25 +180,37 @@ export default function Hero({ onOpenTalk }) {
 
       // Draw Nodes
       nodes.forEach((n) => {
-        const alpha = Math.max(0.2, (n.z + radius) / (2 * radius));
+        const alpha = Math.max(0.25, (n.z + currentRadius) / (2 * currentRadius));
         const r = n.size * n.scale;
         ctx.beginPath();
         ctx.arc(n.projX, n.projY, r, 0, Math.PI * 2);
-        ctx.fillStyle = n.isCore ? `rgba(255, 255, 255, ${alpha})` : `rgba(249, 190, 74, ${alpha * 0.95})`;
+        if (n.isGold) {
+          ctx.fillStyle = `rgba(249, 190, 74, ${alpha * 0.95})`;
+          ctx.shadowColor = '#F9BE4A';
+          ctx.shadowBlur = 6;
+        } else if (n.isCore) {
+          ctx.fillStyle = `rgba(0, 223, 129, ${alpha})`;
+          ctx.shadowColor = '#00DF81';
+          ctx.shadowBlur = 8;
+        } else {
+          ctx.fillStyle = `rgba(44, 194, 149, ${alpha * 0.85})`;
+          ctx.shadowBlur = 0;
+        }
         ctx.fill();
+        ctx.shadowBlur = 0;
       });
 
       // Orbiting Badges
       badges.forEach((b, idx) => {
-        b.angle += 0.005 * (idx % 2 === 0 ? 1 : -0.85);
-        const bx = Math.cos(b.angle) * b.orbitR;
-        const by = Math.sin(b.angle * 1.3) * 35 + b.tilt * radius;
-        const bz = Math.sin(b.angle) * b.orbitR;
+        b.angle += 0.006 * (idx % 2 === 0 ? 1 : -0.85);
+        const bx = Math.cos(b.angle) * currentRadius * b.orbitR;
+        const by = Math.sin(b.angle * 1.3) * 35 + b.tilt * currentRadius;
+        const bz = Math.sin(b.angle) * currentRadius * b.orbitR;
         const rot = rotatePoint({ x0: bx, y0: by, z0: bz }, cosX, sinX, cosY, sinY);
         const scale = fov / (fov + rot.z);
         const px = centerX + rot.x * scale;
         const py = centerY + rot.y * scale;
-        const bAlpha = Math.max(0.25, (rot.z + radius * 1.2) / (radius * 2.4));
+        const bAlpha = Math.max(0.3, (rot.z + currentRadius * 1.2) / (currentRadius * 2.4));
 
         ctx.save();
         ctx.globalAlpha = Math.min(1, bAlpha * 1.2);
@@ -171,9 +224,9 @@ export default function Hero({ onOpenTalk }) {
         const boxX = px - boxW / 2;
         const boxY = py - boxH / 2;
 
-        ctx.fillStyle = 'rgba(16, 70, 56, 0.9)';
+        ctx.fillStyle = 'rgba(3, 34, 33, 0.92)';
         ctx.strokeStyle = b.color;
-        ctx.lineWidth = 1.2;
+        ctx.lineWidth = 1.3;
         ctx.beginPath();
         ctx.roundRect(boxX, boxY, boxW, boxH, 13);
         ctx.fill();
@@ -191,13 +244,14 @@ export default function Hero({ onOpenTalk }) {
 
     return () => {
       cancelAnimationFrame(animId);
+      window.removeEventListener('resize', handleResize);
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, []);
+  }, [scrollProgress]);
 
   return (
-    <section className="hero-section" id="home">
+    <section className="hero-section cinematic-hero" id="home">
       <div className="container">
         <div className="hero-grid">
           <div className="hero-content">
@@ -215,8 +269,8 @@ export default function Hero({ onOpenTalk }) {
             </p>
 
             <div className="hero-actions">
-              <a href="#services" className="btn-gold">
-                <span>Explore Our Services</span>
+              <a href="#projects" className="btn-gold">
+                <span>Explore Our Projects</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
               </a>
               <a href="#contact" className="btn-outline-gold" onClick={onOpenTalk}>
@@ -241,9 +295,21 @@ export default function Hero({ onOpenTalk }) {
             </div>
           </div>
 
-          <div className="hero-visual-wrapper">
-            <div className="hero-canvas-container" title="Interactive 3D Technology Sphere - Move cursor to rotate">
-              <canvas ref={canvasRef} id="hero-3d-canvas" width="550" height="550" aria-label="Interactive 3D glowing golden digital sphere representing NexFero neural technology network"></canvas>
+          <div
+            className="hero-visual-wrapper cinematic-visual-container"
+            style={{
+              transform: `scale(${1 + scrollProgress * 0.12})`,
+              transition: 'transform 0.15s ease-out'
+            }}
+          >
+            <div className="hero-canvas-container" title="Cinematic 3D Emerald Sphere - Scales on scroll, rotates with mouse">
+              <canvas
+                ref={canvasRef}
+                id="hero-3d-canvas"
+                width="550"
+                height="550"
+                aria-label="Interactive 3D glowing emerald digital sphere representing NexFero neural technology network"
+              />
             </div>
           </div>
         </div>
@@ -251,4 +317,3 @@ export default function Hero({ onOpenTalk }) {
     </section>
   );
 }
-

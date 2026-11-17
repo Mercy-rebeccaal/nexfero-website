@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { PROJECTS_DATA } from '../data/projectsData';
+import Section3DVisual from './Section3DVisual';
 
 export default function Projects({ onOpenProjectModal }) {
   const [filter, setFilter] = useState('all');
+
+  const categories = ['all', 'VR & Education', 'Assistive AI & IoT', 'Machine Learning', 'Full-Stack Web', 'Generative AI', 'Healthcare Systems', 'Web Platforms'];
 
   const filtered =
     filter === 'all'
@@ -17,60 +20,67 @@ export default function Projects({ onOpenProjectModal }) {
             <span className="label-bullet"></span>
             <span>Engineering Showcase</span>
           </div>
-          <h2 className="section-title">Innovation Beyond Imagination.</h2>
+          <h2 className="section-title">
+            Innovation Beyond <span className="gold-gradient-text">Imagination.</span>
+          </h2>
           <p className="section-description">
-            Explore our architectural prototypes and proof-of-concept builds, demonstrating real-world technical depth across artificial intelligence, enterprise platforms, and cloud infrastructure.
+            Explore our real-world software architectures, research prototypes, and applied systems across AI, computer vision, smart embedded IoT, and enterprise web solutions.
           </p>
         </div>
 
+        {/* Filter Categories */}
         <div className="projects-filter-row" role="tablist" aria-label="Project Categories">
-          {['all', 'Artificial Intelligence', 'Web Applications', 'Security Solutions', 'Machine Learning', 'Digital Platforms'].map((cat) => (
+          {categories.map((cat) => (
             <button
               key={cat}
               type="button"
-              className={`project-filter-btn ${filter === cat ? 'active' : ''}`}
+              className={`project-filter-btn ${filter.toLowerCase() === cat.toLowerCase() ? 'active' : ''}`}
               onClick={() => setFilter(cat)}
             >
-              {cat === 'all' ? 'All Projects' : cat}
+              {cat === 'all' ? 'All 7 Projects' : cat}
             </button>
           ))}
         </div>
 
+        {/* 7 Projects Grid */}
         <div className="projects-grid" id="projects-grid">
           {filtered.map((project) => (
-            <article key={project.id} className="project-card">
+            <article key={project.id} className="project-card interactive-target">
               <div className="project-card-header">
                 <div className="project-category-badge">{project.category}</div>
-                <div className="project-badge-pill">{project.badge}</div>
+                <div className="project-order-badge">0{project.order}</div>
               </div>
 
-              <div className="project-card-visual">
-                <div className="project-visual-pattern">
-                  <div className="visual-center-emblem">
-                    <span className="project-emblem-icon">✦</span>
-                    <span className="project-emblem-text">{project.title.substring(0, 4)}</span>
-                  </div>
+              {/* Unique 3D Visual Engine for each Project */}
+              <div className="project-card-visual" style={{ height: '190px', backgroundColor: '#000F0F', position: 'relative', overflow: 'hidden' }}>
+                <Section3DVisual type={project.visualType} width={380} height={190} />
+                <div className="visual-caption-badge" style={{
+                  position: 'absolute',
+                  bottom: '8px',
+                  right: '10px',
+                  backgroundColor: 'rgba(0, 15, 15, 0.75)',
+                  border: '1px solid rgba(44, 194, 149, 0.3)',
+                  borderRadius: '4px',
+                  padding: '2px 6px',
+                  fontSize: '0.7rem',
+                  color: '#A8CDC4'
+                }}>
+                  {project.visualDesc}
                 </div>
               </div>
 
               <div className="project-card-body">
                 <h3 className="project-title">{project.title}</h3>
-                <p className="project-desc">{project.description}</p>
+                <p className="project-tagline" style={{ color: '#F9BE4A', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+                  {project.tagline}
+                </p>
+                <p className="project-desc">{project.shortDescription}</p>
 
                 <div className="project-tags">
-                  {project.tags.map((t, i) => (
+                  {project.technologies.map((t, i) => (
                     <span key={i} className="project-tag-pill">
                       {t}
                     </span>
-                  ))}
-                </div>
-
-                <div className="project-metrics-row">
-                  {project.metrics && project.metrics.map((m, i) => (
-                    <div key={i} className="card-metric-col">
-                      <span className="metric-value-text">{m.value}</span>
-                      <span className="metric-label-text">{m.label}</span>
-                    </div>
                   ))}
                 </div>
               </div>
